@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Products</title>
+    <link rel="stylesheet" href="{% static 'css/search_product.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo-section">
+            <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+            <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+        </div>
+        <nav>
+            <ul>
+                <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                        <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                        <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                        <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                        <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                        <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                        <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                        <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                        <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                        <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                        <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                        <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Video</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Documentary</a></li>
+                        <li><a href="#">Short Films</a></li>
+                        <li><a href="#">Music Videos</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Audios</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Podcasts</a></li>
+                        <li><a href="#">Sound Effects</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">AI Generator</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Text to Image</a></li>
+                        <li><a href="#">Text to Video</a></li>
+                        <li><a href="#">Voice Synthesis</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Art & Design</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Illustrations</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">3D Models</a></li>
+                        <li><a href="#">Logos</a></li>
+                        <li><a href="#">Web Templates</a></li>
+                        <li><a href="#">Frame Design</a></li>
+                        <li><a href="#">God and Goddess</a></li>
+                        <li><a href="#">Characters</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            
+            {% if is_active and user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+            {% elif is_active and not user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+            {% endif %}
+            {% if not is_active %}
+            <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+            {% endif %}
+            <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+
+    <main >
+         
+
+        <div class="search-container">
+            <h1>One library, millions of ways to tell your story</h1>
+            <div class="search-bar">
+                <form id="search-form" action="{% url 'manual_searched_products' %}" method="get">
+                    <select id="category" name="category">
+                        <option value="images">Images</option>
+                        <option value="video">Video</option>
+                        <option value="audios">Audios</option>
+                        <option value="ai_generated">AI Generated</option>
+                        <option value="art_design">Art & Design</option>
+                    
+                    </select>
+                    <input type="text" id="search-input" name="keywords" placeholder="Search using keyword..">
+                    <button type="submit" id="search-btn">Search</button>
+                </form>
+            </div>
+            <div class="trending">
+                Trending: happy birthday, thank you, background, congratulations, business, welcome
+            </div>
+        </div> 
+    </main>
+
+    <script src="{% static 'js/search_product.js' %}"></script>
+
+
+    
+</body>
+</html>

@@ -1,0 +1,397 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* background-color: rgba(77, 226, 89, 0.493); */
+}
+
+.header{
+    width: 100%;
+    height: 400px;
+
+}
+
+.menu{
+    width: 100%;
+    height: 50px;
+    background-color: rgb(162, 255, 218);
+    display: flex;
+}
+
+.dlitebazar{
+    width: 10%;
+    height: 50px;
+    border: 1px solid ;
+    line-height: 50px;
+}
+
+.images{
+    width: 7%;
+    height: 50px;
+    border: 1px solid green;
+    line-height: 50px;
+    text-align: center;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.videos{
+    width: 7%;
+    height: 50px;
+    border: 1px solid green;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.search{
+    width: 100%;
+    height: 40px;
+    background-color: rgb(162, 255, 218);
+    align-content: center;
+    text-align: center;
+}
+
+.search_input{
+    width: 50%;
+    height: 30px;
+    align-content: center;
+    margin-left: 30%;
+    border-radius: 10px;
+    background-color: white;
+}
+.search_input input{
+    width: 93%;
+    height: 30px;
+    border-radius: 10px 0px 0px 10px;
+    font-size: medium;
+    position: relative;
+    top: -5px;
+    left: -7px;
+    border: none;
+    outline: none;
+    padding-left: 5px;
+}
+
+.search_icon{
+    width: 5%;
+    height: 30px;
+    text-decoration: none;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: inherit;
+    outline: none;
+    top: 5px;
+    left: -5px;
+}
+
+.search_icon img{
+    width: 100%;
+    height: 30px;
+    padding: 2px;
+}
+
+.cover{
+    width: 100%;
+    height: 310px;
+    background-color: rgb(54, 51, 51);
+    
+}
+
+.cover img{
+    width: 100%;
+    background-position: center;
+    height: 420px;
+    
+}
+
+.slogan{
+    width: 80%;
+    height: 150px;
+    border: 1px solid rgb(73, 4, 10);
+    border-radius: 5px;
+    position: relative;
+    top: -155px;
+    left: 10%;
+    background-color: rgba(238, 71, 188, 0.253);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.slogan h1{
+    color: rgba(4, 22, 20, 0.938);
+    text-align: center;   
+    display: block;
+    margin-right: 20px;
+}
+
+.bar{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+}
+.bar h3{
+    margin-left: 10px;
+}
+
+
+/* Define styles for display container */
+/* .display_container {
+
+   padding: 10px;
+   columns: 6;
+   column-gap: 5px;
+   background-color: rgba(77, 226, 89, 0.493);
+   margin-top: 110px;
+   height: 800px;
+   width: 1349px;
+   overflow-x: hidden;
+   overflow-y: hidden;
+}
+
+.display_item img {
+    width: 100%;
+    border-radius: 5px;
+    border: solid rgb(104, 104, 170) 0.2px;
+} */
+
+.display_container {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* columns: 4; */
+    column-gap: 5px;
+    background-color: rgba(77, 226, 89, 0.493);
+    margin-top: 110px;
+}
+
+.display_item {
+    position: relative;
+    margin-bottom: 5px;
+    break-inside: avoid;
+}
+
+.display_item img {
+    width: 327px;
+    height: 327px;
+    border: solid rgb(104, 104, 170) 0.2px;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+}
+
+.display_item .buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.display_item:hover .buttons {
+    opacity: 1;
+}
+
+.display_item .cart-button,
+.display_item .like-button {
+    font-size: 30px; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white; /* Initial button color */
+    transition: color 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+.trending-section {
+    background-color: rgba(77, 226, 89, 0.493);
+    text-align: center;
+    
+}
+.recommended-section{
+    background-color: rgba(77, 226, 89, 0.493);
+    text-align: center;
+    margin-top: -20px;
+}
+
+.trending-section h2{
+    padding-top: 20px;
+    color: red;
+}
+.recommended-section h2 {
+    padding-top: 20px;
+    color: red;
+}
+
+.trending-container, .recommended-container {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 5px;
+    background-color: rgba(77, 226, 89, 0.493);
+    /* margin-top: 110px; */
+    
+}
+
+.trending-item img, .recommended-item img {
+    width: 327px;
+    height: 327px;
+    border: solid rgb(104, 104, 170) 0.2px;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+}
+.trending-item {
+    position: relative;
+    margin-bottom: 5px;
+    break-inside: avoid;
+}
+.recommended-item {
+    position: relative;
+    margin-bottom: 5px;
+    break-inside: avoid;
+}
+
+
+.like-button1 {
+    position: absolute;
+    top: 10px;
+    right: 290px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.trending-item:hover .like-button1 {
+    opacity: 1;
+}
+.recommended-item:hover .like-button1 {
+    opacity: 1;
+}
+
+
+
+
+.see-more-btn {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #3a52a3;
+    color: white;
+    transition: background-color 0.3s;
+    height: 40px;
+    width: 180px;
+}
+.search-more-btn {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #3a52a3;
+    color: white;
+    transition: background-color 0.3s;
+    height: 40px;
+    width: 180px;
+    display: block;
+}
+.see-more-btn:hover {
+    background-color: #143d6b;
+}
+
+
+
+
+
+
+.reviews-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    /* margin: 20px 0; */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    background-color: #0aa831;
+}
+
+.review-box {
+    width: 240px;
+    height: 240px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.review-box:hover {
+    transform: scale(1.05);
+}
+
+.review-image {
+    width: 100%;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+}
+
+.star-rating {
+    margin: 10px 0;
+}
+
+.star-rating i {
+    color: #FFD700;
+    font-size: 20px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.star-rating {
+  margin: 10px 0;
+}
+
+.star {
+  color: #0011ff; /* Active star color */
+  font-size: 20px;
+}
+
+.star.inactive {
+  color: #ccc; /* Inactive star color */
+}
+.rating_heading{
+  text-align: center;
+  background-color: #0aa831 ;
+  color: rgb(238, 241, 33);
+}

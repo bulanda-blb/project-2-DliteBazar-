@@ -1,0 +1,19 @@
+{% extends 'admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="email-form-container">
+    <h1>Send Email to <strong> {{ email }} </strong></h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="emailBody">Message:</label>
+            <textarea name="email_body" id="emailBody" rows="6" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" name="contact_email" class="submit-btn">Send</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

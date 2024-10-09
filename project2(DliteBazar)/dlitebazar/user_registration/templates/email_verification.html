@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <link rel="stylesheet" href="{% static 'css/email_verification.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo-section">
+            <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+            <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+        </div>
+        <nav>
+            <ul>
+                <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                        <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                        <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                        <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                        <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                        <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                        <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                        <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                        <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                        <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                        <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                        <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Video</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Documentary</a></li>
+                        <li><a href="#">Short Films</a></li>
+                        <li><a href="#">Music Videos</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Audios</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Podcasts</a></li>
+                        <li><a href="#">Sound Effects</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">AI Generator</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Text to Image</a></li>
+                        <li><a href="#">Text to Video</a></li>
+                        <li><a href="#">Voice Synthesis</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Art & Design</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Illustrations</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">3D Models</a></li>
+                        <li><a href="#">Logos</a></li>
+                        <li><a href="#">Web Templates</a></li>
+                        <li><a href="#">Frame Design</a></li>
+                        <li><a href="#">God and Goddess</a></li>
+                        <li><a href="#">Characters</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            
+            {% if is_active and user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+            {% elif is_active and not user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+            {% endif %}
+            {% if not is_active %}
+            <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+            {% endif %}
+            <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+
+
+
+
+    <div class="container">
+        <h2>Email Verification</h2>
+        <div class="boxes">
+            <div class="user-details-box box">
+                <h3>Your Details</h3>
+                <div class="detail-item">
+                    <label>First Name:</label>
+                    <span id="firstname">{{ registration_data.firstname }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Middle Name:</label>
+                    <span id="middlename">{{ registration_data.middlename }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Last Name:</label>
+                    <span id="lastname">{{ registration_data.lastname }}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Email:</label>
+                    <span id="email">{{ registration_data.email }}</span>
+                </div>
+                <div class="detail-item">
+                    <button class="edit-all-button" onclick="openEditForm()">Edit Details</button>
+                </div>
+            </div>
+            <div class="otp-verification-box box">
+                <h3>OTP Verification</h3>
+                {% if timer %}
+                <span id="timer" class="timer">Resend OTP after {{timer}} second</span>
+                {% endif %}
+                <form class="form-code" id="otpForm" action="" method="POST" >
+                {% csrf_token %}
+                <button class="send-otp-button" name="send_otp" id="send-otp-button" >Send OTP</button>
+                </form>
+
+                <form class="form-code" action="" method="POST" >
+                {% csrf_token %}
+                <input type="text" id="otp" name="otp_code" placeholder="Enter OTP">
+                <button class="submit-otp-button" name="send" >Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editPopup" class="popup">
+        <div class="popup-content" id="popup-content">
+            <span class="close" onclick="closeEditForm()">&times;</span>
+            <h3>Edit Details</h3>
+            <form id="editForm" method="POST" action="{% url 'email_verification' %}">
+                {% csrf_token %}
+                <div class="detail-item">
+                    <label for="editFirstname">First Name:</label>
+                    <input type="text" id="editFirstname" name="firstname" value="{{ registration_data.firstname }}">
+                </div>
+                <div class="detail-item">
+                    <label for="editMiddlename">Middle Name:</label>
+                    <input type="text" id="editMiddlename" name="middlename" value="{{ registration_data.middlename }}">
+                </div>
+                <div class="detail-item">
+                    <label for="editLastname">Last Name:</label>
+                    <input type="text" id="editLastname" name="lastname" value="{{ registration_data.lastname }}">
+                </div>
+                <div class="detail-item">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="email" value="{{ registration_data.email }}">
+                </div>
+                <button type="submit" name="edit" class="save-button">Save</button>
+            </form>
+        </div>
+    </div>
+
+        
+    <script src="{% static 'js/email_verification.js' %}"></script>
+</body>
+</html>

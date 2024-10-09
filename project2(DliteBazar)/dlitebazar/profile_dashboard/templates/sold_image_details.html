@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sold Image Details</title>
+    <link rel="stylesheet" href="{% static 'css/sold_image_details.css'%}">
+</head>
+<body>
+    <div class="container">
+        <div class="image-section">
+            <img src="{{sold_details.image.image_file.url}}" alt="Purchased Image" class="full-image">
+            
+        </div>
+        <div class="details-section">
+            <div class="header">
+                <h1>Purchased Item Details</h1>
+                <p><strong>Sold Time:</strong> {{sold_details.purchase_date}}</p>
+            </div>
+            <div class="info-feedback-row">
+                <div class="info-box">
+                    <h2>Details</h2>
+                    <p><strong>Title:</strong> {{ sold_details.image.title }}</p>
+                    <p><strong>Category:</strong> {{ sold_details.image.category }}</p>
+                    <p><strong>Subcategory:</strong> {{ sold_details.image.subcategory }}</p>
+                    <p><strong>Price:</strong> {{ sold_details.image.price }}</p>
+                    <p><strong>Description:</strong> {{ sold_details.image.description }}</p>
+                    <p><strong>Keywords:</strong> {{ sold_details.image.keywords }}</p>
+                    <p><strong>Size:</strong> {{ sold_details.image.size }}</p>
+                    <p><strong>Format:</strong> {{ sold_details.image.file_format }}</p>
+                    <p><strong>Resolution:</strong> {{ sold_details.image.resolution }}</p>
+                    <p><strong>DPI:</strong> {{ sold_details.image.dpi }}</p>
+                    <p><strong>Uploaded Date:</strong> {{ sold_details.image.uploaded_datetime }}</p>
+                    <p><strong>Likes:</strong> {{ sold_details.image.liked_by_counter }}</p>
+                    <p><strong>Sold Multiple(*) :</strong> {{ sold_details.image.sold_multiple_counter }}</p>
+                </div>
+                <div class="feedback-box">
+                   
+                    <h2>Your Rating and Review</h2>
+                    {% if rating_data %}
+                    <div class="rating-display">
+                        <div class="stars-display">
+                            {% for i in "12345" %}
+                                {% if forloop.counter0 < rating_data.star_rating %}
+                                    <span class="star">&#9733;</span>
+                                {% else %}
+                                    <span class="star inactive">&#9733;</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p><strong>Review:</strong> {{ rating_data.image_review }}</p>
+                        <p><small>submitted date:{{ rating_data.created_at }}</small></p>
+                        {% else %}
+                        <h1 class="empty-rating">No Rating and Review Till Now</h2>
+                        {% endif  %}
+                        
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+            <div class="report-contributor-row">
+                <div class="contributor-box">
+                    <h2>Purchased By</h2>
+                    <div class="contributor-info">
+                        {% if sold_details.purchased_by.profile_picture %}
+                        <img src="{{ sold_details.purchased_by.profile_picture.url }}" alt="Buyer Image">
+                       {% else %}
+                       <img src="{% static 'images/profile.png' %}" alt="Buyer Image">
+                       {% endif %}
+                    </div>
+                    <button class="chat-button">Chat with {{sold_details.purchased_by.first_name}}</button>
+                    <a href="{% url 'profile_page'%}"><button class="chat-button2">Back to Profile</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/sold_image_details.js'%}"></script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+
+}
+a{
+  text-decoration: none;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  width: 100%;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff3333;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  position: relative;
+}
+
+nav li {
+  margin: 0 15px;
+  position: relative;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  position: relative;
+}
+
+nav a:hover,
+nav a.active {
+  color: #ff3333;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #ff3333;
+  left: 0;
+  bottom: -5px;
+}
+
+.has-dropdown:hover .dropdown {
+  display: block;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.dropdown li {
+  margin: 0;
+}
+
+.dropdown a {
+  padding: 10px 20px;
+  display: block;
+  color: #fff;
+}
+
+.dropdown a:hover {
+  background-color: #444;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-actions a {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+  font-size: 16px;
+  position: relative;
+}
+
+.user-actions #liked-photos,
+.user-actions #cart {
+  font-size: 20px;
+}
+
+.user-actions .login-btn,
+.user-actions .signup-btn {
+  padding: 5px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.user-actions .login-btn {
+  background-color: transparent;
+  border: 1px solid #fff;
+}
+
+.user-actions .signup-btn {
+  background-color: #ff3333;
+  border: 1px solid #ff3333;
+  color: white;
+}
+
+.user-actions .login-btn:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.user-actions .signup-btn:hover {
+  background-color: transparent;
+  color: #ff3333;
+}
+.slogan{
+    width: 100%;
+    height: 400px;
+    position: relative;
+    /* background-color: rgb(199, 40, 119); */
+    background-color: lightgoldenrodyellow;
+}
+.slogan::before{
+    content:'';
+    background-position: center;
+    background-size:cover;
+    position: absolute;
+    inset: 0;
+    opacity: 0.4;
+}
+.category-display-box{
+  display: inline-flex;
+  border: solid black 1px;
+  width: 150px;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+  background-color: #0c882b;
+  border-radius: 20%;
+  margin-right: 15px;
+  color: black;
+}
+.category-display-box-search{
+  display: inline-flex;
+  border: solid black 1px;
+  width: 220px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  background-color: #8b1313;
+  border-radius: 5%;
+  color: white;
+}
+.search-btn{
+  padding: 5px;
+  border-radius: 5px ;
+  background-color: rgb(190, 112, 17);
+  cursor: pointer;
+  color: rgb(8, 22, 27);
+}
+
+.s1{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    transform: translateY(100px);
+
+}
+.slogan h2{
+    color: rgb(0, 0, 0);
+    line-height: 50px;
+
+}
+
+
+
+
+/* about section in 5th part  */
+.about-us-heading{
+    height: 40px;
+    /* margin-bottom: 10px; */
+    /* margin-top: 10px; */
+    background-color: lightgoldenrodyellow;
+  }
+  .about-us-title{
+    width: 200px;
+    font-size: 40px;
+    margin-left: 600px;
+    padding-left: 10px;
+    padding-bottom: 7px;
+    line-height: 80%;
+    border-color: purple;
+    /* border-width: 5px; */
+    padding-top: 0;
+    /* border-left-style: double; */
+    /* border-bottom-style: dotted; */
+    
+  }
+  .about-section{
+    height: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 500px;
+    background-color: lightgoldenrodyellow;
+  
+  }
+  
+  .about-us-details{
+    border-right-style: dotted;
+    border-color: black;
+    border-width: 1px;
+  }
+  .heading-creative{
+    margin-left: 30px;
+    margin-top: 40px;
+  }
+  .about-us-para{
+    line-height: 25px;
+    width: 550px;
+    text-align:left;
+    margin-left: 30px;
+    font-size: 15px;
+    font-family: sans-serif;
+  }
+  .project-link{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100px;
+    width: 550px;
+    margin-left: 30px;
+  }
+  .web-photo{
+    height: 50px;
+    width: 50px;
+    margin-left: 60px;
+  
+  }
+  .web-text{
+    margin-left: 40px;
+    width: 100px;
+    margin-bottom: 70px;
+  }
+  
+  .our-team-heading{
+    margin-left: 300px;
+    width: 110px;
+    padding-left: 4px;
+    /* color: rgb(149, 88, 219); */
+    margin-bottom: 30px;
+    border-bottom-style: dashed;
+  }
+  .team-profile{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 200px;
+  }
+  
+  .profile-1-pic{
+    height: 90px;
+    width: 90px;
+    margin-left: 60px;
+    border-radius: 50px;
+  }
+  .name{
+    margin-left: 50px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  .work{
+    margin-left: 50px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+  }
+  
+
+
+ 
+  .reviews-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    /* margin: 20px 0; */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    background-color: #0aa831;
+}
+
+.review-box {
+    width: 240px;
+    height: 240px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.review-box:hover {
+    transform: scale(1.05);
+}
+
+.review-image {
+    width: 100%;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+}
+
+.star-rating {
+    margin: 10px 0;
+}
+
+.star-rating i {
+    color: #FFD700;
+    font-size: 20px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.star-rating {
+  margin: 10px 0;
+}
+
+.star {
+  color: #0011ff; /* Active star color */
+  font-size: 20px;
+}
+
+.star.inactive {
+  color: #ccc; /* Inactive star color */
+}
+.rating_heading{
+  text-align: center;
+  background-color: #0aa831 ;
+  color: rgb(238, 241, 33);
+}

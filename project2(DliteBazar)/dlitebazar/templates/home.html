@@ -1,0 +1,291 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DliteBazar</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo-section">
+            <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+            <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+        </div>
+        <nav>
+            <ul>
+                <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                        <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                        <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                        <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                        <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                        <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                        <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                        <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                        <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                        <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                        <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                        <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Video</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Documentary</a></li>
+                        <li><a href="#">Short Films</a></li>
+                        <li><a href="#">Music Videos</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Audios</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Podcasts</a></li>
+                        <li><a href="#">Sound Effects</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">AI Generator</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Text to Image</a></li>
+                        <li><a href="#">Text to Video</a></li>
+                        <li><a href="#">Voice Synthesis</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Art & Design</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Illustrations</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">3D Models</a></li>
+                        <li><a href="#">Logos</a></li>
+                        <li><a href="#">Web Templates</a></li>
+                        <li><a href="#">Frame Design</a></li>
+                        <li><a href="#">God and Goddess</a></li>
+                        <li><a href="#">Characters</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="{% url 'search_products'%}"><strong>Search Products</strong></a>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            {% if is_active %}
+            <a href="#" id="liked-photos">❤️</a>
+            {% endif %}
+            {% if is_active and user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+            {% elif is_active and not user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+            {% endif %}
+            {% if not is_active %}
+            <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+            {% endif %}
+            <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+
+    <!-- Liked Items Modal -->
+    <div id="liked-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('liked-modal')">&times;</span>
+            <h2>Liked Items</h2>
+            <div class="items-container">
+                {% if liked_items %}
+                {% for item in liked_items %} 
+                <div class="item">
+                    
+                    <a href="{% url 'product_details' image_id=item.image.image_id %}" ><img src="{{ item.image.image_file.url }}" alt="{{ item.title }}"></a>
+                    <div class="item-details">
+                        <h4>{{ item.image.title }}</h4>
+                        <p>{{ item.image.description }}</p>
+                        <p><strong>Category:</strong> {{ item.image.category }}</p>
+                        <p><strong>Subcategory:</strong> {{ item.image.subcategory }}</p>
+                        <p><strong>Price:</strong> Rs: {{ item.image.price }}</p>
+                        {% if not user == item.image.user %}
+                        <a href="{% url 'checkout' image_id=item.image.image_id %}" ><button type="submit" name="remove" class="add-to-cart" ">checkout</button></a>
+                        {% endif %}
+                        <form method="POST" action = "{% url 'home_page' %}" >
+                            {% csrf_token %}
+                        <input type="hidden" name="image_id" value="{{item.image.image_id}}">
+                        <button type="submit" name="remove" class="add-to-cart" ">Remove</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <h4>No Any liked items</h4>
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="{% static 'js/navbar.js' %}"></script>
+
+    
+    
+
+    <div class="body">
+        <div class="slogan" >
+            <div class="s1">
+                <h2>GET THE DIGITAL PRODUCT & SERVICEs<br>
+                YOU WILL ENJOY IT</h2>
+                <a href="{% url 'display_products' %}"><div class="category-display-box">
+                    <h1>Images</h1>
+                </div></a>
+                <a href="{% url 'display_products' %}"><div class="category-display-box">
+                    <h1>Videos</h1>
+                </div></a>
+                <a href="{% url 'display_products' %}"><div class="category-display-box">
+                    <h1>Audios</h1>
+                </div></a>
+                {% comment %} <a href="{% url 'display_products' %}"><div class="category-display-box">
+                    <h1>Bundle</h1>
+                </div></a>
+                <a href="{% url 'search_products' %}"><div class="category-display-box-search">
+                    <h1>Search More...</h1> {% endcomment %}
+                </div></a>
+                <!-- <a href ="" ><button class = "search-btn">search images</button></a> -->
+           </div>
+        </div>
+        
+    </div>
+
+    <!-- fifth section for about  -->
+    <div class="about-us-heading" id="about-section-link">
+        <h1 class="about-us-title">About Us</h1>
+    </div>
+    <div class="about-section" >
+        <div class="about-us-details">
+            <h1 class="heading-creative">We are <strong>Creative!</strong></h1>
+            <p class="about-us-para">With a passion for aesthetic and deep understanding of digital media, we bring your vision to life. We are a creative studio specializing in <strong>web design, photography</strong>  and <strong>grphics design</strong>. Let us transform your ideas into reality. Partner with us to make your online presence stand out and have a lastiong impression. <br> We are committed to delivering excellence and exceeding expectations. Wheather you are a small start-up, a growing enterprise or an indivisual with a unique project, we are dedicated to crafting innovative and impactful solutions to your needs.</p>
+            <div class="project-link">
+                <div class="web-design">
+                    <img src="static/images/web.png" class="web-photo">
+                    <h3 class="web-text">Web Design</h3>
+                </div>
+                <div class="photography">
+                    <img src="static/images/photography.png" class="web-photo">
+                    <h3 class="web-text">Photography</h3>
+                </div>
+                <div class="graphics-design">
+                    <img src="static/images/gdesign.png" class="web-photo">
+                    <h3 class="web-text">Graphics</h3>
+                </div>
+            </div>
+        </div>
+        <div class="about-us-team">
+            <h1 class="heading-creative"><strong>Who</strong> Are We?</h1>
+            <p class="about-us-para">Welcome to our website! we are a team of developers, designers, and we are students of compuer engineering dedicated to delevering innovative solutions. With expertise in programming, design, and commitment to continuous learning, we bring ideas to  life. Wheather you need web design, photography or graphics design, we are here to help. Let's create digital experiences toether.</p>
+            <h2 class="our-team-heading">Our Team</h2>
+            <div class="team-profile">
+                
+                <div class="profile-1">
+                    <img src="static/images/bulanda2.jpg" class="profile-1-pic">
+                    <h4 class="name">Bulanda Belbase</h4>
+                    <h5 class="work">Dev || photography</h5>
+                </div>
+
+                <div class="profile-2">
+                    <img src="static/images/bijayan.jpg" class="profile-1-pic">
+                    <h4 class="name">Bijayan Raj Yadav</h4>
+                    <h5 class="work">Dev || Designer</h5>
+                </div>
+
+                <div class="profile-3">
+                    <img src="static/images/sony.jpg" class="profile-1-pic">
+                    <h4 class="name">Sunita Kumari Sah</h4>
+                    <h5 class="work">Dev || Designer</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="rating_heading">Reviews and Ratings</h1>
+    <div class="reviews-container">
+        
+        {% for review in reviews %}
+        <div class="review-box">
+            <div class="review-image" style="background-image: url('{{ review.purchased_id.image.image_file.url }}');"></div>
+            <div class="star-rating">
+                {% for i in "12345" %}
+                    {% if forloop.counter0 < review.star_rating %}
+                        <span class="star">&#9733;</span>
+                    {% else %}
+                        <span class="star inactive">&#9733;</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="review-text">{{ review.image_review }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="contact-us-heading" id="contact-section-link">
+        <h1 class="contact-us-title">Contact Us</h1>
+    </div>
+    <div class="contact-us">
+        <div class="contact-us-left">
+    
+            <form method="POST" action="" id="form" autocomplete="off">
+                {% csrf_token %}
+                
+                <input type="text" name="full_name" placeholder="Your Name" >
+                <input type="email" name="email" placeholder="Your Email">
+                <textarea name="message" rows="6" placeholder="Your Message" maxlength="300" ></textarea>
+                <button type="submit" class="btn" id="button" name="contact_us" >Submit</button>
+                
+            </form>
+    
+        </div>
+        <div class="contact-us-right">
+            <div class="email-section">
+               <div>
+                <img src="static/images/email.png" class="email-logo">
+               </div>
+               <div>
+                <P class="email-id">dlitebazar@gmail.com</P>
+               </div> 
+            </div>
+            
+            <div class="social-media-heading">
+                <div>
+                    <img src="static/images/social-media.png" class="social-png">
+                </div>
+                <div>
+                    <P class="social">Social Medias:</P>
+                </div>
+            </div>
+    
+            <div class="media-icons">
+                <div class="facebook">
+                    <a href="https://www.facebook.com/"><img src="static/images/facebook.png" class="fb-icon"></a>
+                </div>
+                <div class="instagram">
+                   <a href="https://www.instagram.com/"> <img src="static/images/instagram.png" class="fb-icon"></a>
+                </div>
+                <div class="youtube">
+                   <a href="https://www.youtube.com/"> <img src="static/images/youtube.png" class="fb-icon"></a>
+                </div>
+                <div class="twitter">
+                   <a href="https://www.twitter.com/"> <img src="static/images/twitter.png" class="fb-icon"></a>
+                </div>
+                <div class="github">
+                   <a href="https://www.github.com/"> <img src="static/images/github.png" class="fb-icon"></a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- last part of home page  -->
+    <div class="last-section">
+        <P class="copyright-text">© 2024 DliteBazar. All rights reserved.</P>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'admin.html' %}
+
+{% block title %}User Verification Requests{% endblock %}
+
+{% block content %}
+<div class="verification-requests">
+    <h1>User Verification Requests</h1>
+
+    <!-- Search Form -->
+    <form method="POST" action="" class="search-form">
+        {% csrf_token %}
+        <input type="text" name="search_query" placeholder="Search by User ID, Name, Email, or Username" required>
+        <button type="submit" name="search">Search</button>
+    </form>
+
+
+    {% for status, days in verification_sections.items %}
+    <div class="section">
+        <h2>{{ status|capfirst }}</h2>
+        {% for day, requests in days.items %}
+            <div class="day-section">
+                <h3>{{ day }}</h3>
+                {% for verification in requests %}
+                <div class="verification-item">
+                    <div class="verification-info">
+                        <p><strong>User ID:</strong> {{ verification.user.user_id }}</p>
+                        <p><strong>Full Name:</strong> {{ verification.full_name }}</p>
+                        <p><strong>Phone:</strong> {{ verification.phone }}</p>
+                        <p><strong>Age:</strong> {{ verification.age }}</p>
+                        <p><strong>Profession:</strong> {{ verification.profession }}</p>
+                        <p><strong>Requested Date:</strong> {{ verification.requested_at }}</p>
+                        <p><strong>ID Document:</strong><a href="{{ verification.identity_file.url }}" target="_blank">View File</a></p>
+                        <p><strong>Status:</strong> <span class="status {{ verification.status }}">{{ verification.status }}</span></p>
+                    </div>
+                    <div class="verification-actions">
+                        
+                        {% if verification.status == 'pending' %}
+                        
+                            <a href="{% url 'accepted_document' verification.id %}" ><button type="submit" name="action"  class="accept-btn">Accept</button></a>
+                            <a href="{% url 'rejected_document' verification.id %}" ><button type="submit" name="action"  class="reject-btn">Reject</button></a>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

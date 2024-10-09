@@ -1,0 +1,69 @@
+{% extends 'admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="user-management">
+    <h1>Contact Us Management</h1>
+    
+    <h2>Pending Messages</h2>
+    <div class="user-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Contact Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                {% for i in pending_contacts %}
+                <tr> 
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.email }}</td>
+                    <td>{{ i.message }}</td> 
+                    <td>{{ i.status }}</td>
+                    <td class="actions">
+                        <a href="{% url 'send_email' i.id %}"><button>Email</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <h2>Emailed Messages</h2>
+    <div class="user-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Contact Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                {% for i in emailed_contacts %}
+                <tr> 
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.email }}</td>
+                    <td>{{ i.message }}</td> 
+                    <td>{{ i.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+   
+</div>
+
+{% endblock %}
+

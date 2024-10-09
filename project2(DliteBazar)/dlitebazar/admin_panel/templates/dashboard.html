@@ -1,0 +1,56 @@
+{% extends 'admin.html' %}
+
+{% block content %}
+<h1>Dashboard Overview</h1>
+<div class="overview">
+    <div class="card">
+        <h2>Total Users</h2>
+        <p>{{context.total_users}}</p>
+    </div>
+    <div class="card">
+        <h2>Images Uploaded</h2>
+        <p>{{context.total_images}}</p>
+    </div>
+    <div class="card">
+        <h2>Active Users</h2>
+        <p>{{context.active_users}}</p>
+    </div>
+    <div class="card">
+        <h2>Verified Users</h2>
+        <p>{{context.verified_users}}</p>
+    </div>
+    <div class="card">
+        <h2>Today's Registrations</h2>
+        <p>{{context.todays_registrations}}</p>
+    </div>
+    <div class="card">
+        <h2>Today's Uploads</h2>
+        <p>{{context.todays_uploads}}</p>
+    </div>
+    <div class="card">
+        <h2>Pending Complaints</h2>
+        <p>{{context.pending_complaints}}</p>
+    </div>
+    <div class="card">
+        <h2>Withdrawal Requests</h2>
+        <p>{{context.withdrawal_requests}}</p>
+    </div>
+    <div class="card">
+        <h2>Total Purchases</h2>
+        <p>{{ context.total_purchases }}</p>
+    </div>
+    <div class="card">
+        <h2>Total Comission</h2>
+        <p>{{ context.total_comission }}</p>
+    </div>
+    <div class="card">
+        <h2>Total Discount</h2>
+        <p>Rs: {{ context.total_discount }}</p>
+    </div>
+    <div class="card">
+        <h2>Total Profit</h2>
+        <p>{{ context.total_profit }}</p>
+    </div>
+</div>
+
+{% endblock %}

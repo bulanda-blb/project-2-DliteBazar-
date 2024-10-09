@@ -1,0 +1,440 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.image-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.image-section .full-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.download-button {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.download-button a {
+    display: inline-block;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.download-button a:hover {
+    background-color: #45a049;
+}
+
+.download-button a span {
+    margin-right: 5px;
+}
+
+.details-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.header {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin-top: 0;
+}
+
+.info-feedback-row, .report-contributor-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.info-box, .feedback-box, .report-box, .contributor-box {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-box h2, .feedback-box h2, .report-box h2, .contributor-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.rating p {
+    margin-right: 10px;
+}
+
+ .stars {
+    display: flex;
+    font-size: 30px;
+}
+/*
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input[type="radio"]:checked ~ label {
+    color: #ffcc00;
+} */
+
+.feedback-box textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.feedback-box .submit-feedback {
+    display: block;
+    margin: 10px auto 0;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.feedback-box .submit-feedback:hover {
+    background-color: #45a049;
+}
+
+.report-box .open-report {
+    display: block;
+    margin: 0 auto;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.report-box .open-report:hover {
+    background-color: #e53935;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#report-form input[type="text"], #report-form textarea, #report-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#report-form button {
+    display: block;
+    margin: 20px auto 0;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#report-form button:hover {
+    background-color: #e53935;
+}
+
+.contributor-box {
+    text-align: center;
+}
+
+.contributor-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.contributor-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.chat-button2 {
+    display: block;
+    margin: 0 auto;
+    background-color: #969e1d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+.contributor-box a{
+    text-decoration: none;
+}
+
+
+.chat-button:hover {
+    background-color: #0b7dda;
+}
+
+
+
+
+
+.stars-display .star {
+    font-size: 50px;
+    color: #1c5810; /* Blue color for selected stars */
+   
+}
+.rating-display{
+    margin-top: 40px;
+}
+.stars-display .star.inactive {
+    color: #ccc; /* Grey color for unselected stars */
+}
+
+/* Styles for the form when user hasn't submitted a review yet */
+.stars label {
+    font-size: 50px;
+    color: #ccc;
+    cursor: pointer;
+}
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label.selected {
+    color: #1c5810;
+}
+
+
+
+
+/* Modal for Edit Review */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #000;
+}
+
+h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.edit-rating p {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #666;
+}
+
+.edit-stars {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.edit-stars label {
+    font-size: 40px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.edit-stars input[type="radio"] {
+    display: none;
+}
+
+.edit-stars label.selected {
+    color: #1c5810;
+}
+
+/* .edit-stars label:hover,
+.edit-stars label:hover ~ label {
+    color: #ffcc00;
+} */
+
+textarea[name="edit_feedback"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 16px;
+    line-height: 1.5;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.submit-feedback {
+    display: block;
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.submit-feedback:hover {
+    background-color: #45a049;
+}
+
+/* Style for Edit Review Button */
+.edit-review-button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-review-button:hover {
+    background-color: #0b7dda;
+    transform: scale(1.05);
+}
+
+.edit-review-button:active {
+    transform: scale(1);
+}
+
+
+
+
+

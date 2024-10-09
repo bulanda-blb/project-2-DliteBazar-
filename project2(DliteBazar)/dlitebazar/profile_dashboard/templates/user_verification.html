@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Verification</title>
+    <link rel="stylesheet" href="{% static 'css/user_verification.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="verification-box">
+            <h2>User Verification</h2>
+            <p class="info-text">
+                To ensure the safety and security of our platform, we require all sellers to verify their identity.
+                Please provide accurate and up-to-date information to complete your verification process. This helps
+                us maintain a trusted environment for all users.
+            </p>
+            {% if valid_error.full_name %}
+            <p class="error_message">{{valid_error.full_name}}</p>
+            {% elif valid_error.phone %}
+            <p class="error_message">{{valid_error.phone}}</p>
+            {% elif valid_error.age %}
+            <p class="error_message">{{valid_error.age}}</p>
+            {% elif valid_error.profession %}
+            <p class="error_message">{{valid_error.profession}}</p>
+            {% elif valid_error.document %}
+            <p class="error_message">{{valid_error.document}}</p>
+            {% endif %}
+
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group-row">
+                    <div class="form-group half-width">
+                        <label for="name">Full Name*:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="phone">Reachable Number*:</label>
+                        <input type="number" id="phone" name="phone" required>
+                    </div>
+                </div>
+               
+                <div class="form-group-row">
+                    <div class="form-group half-width">
+                        <label for="age">Age*:</label>
+                        <input type="number" id="age" name="age" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="profession">Profession*:</label>
+                        <input type="text" id="profession" name="profession" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="identity_document">Upload Identity Document*:</label>
+                    <input type="file" id="identity_document" name="identity_document" accept="application/pdf, image/*" required>
+                </div>
+                <button type="submit" name="verify">Submit for Verification</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

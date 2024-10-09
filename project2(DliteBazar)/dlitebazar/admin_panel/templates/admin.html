@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="admin-panel">
+        <nav class="navbar">
+            
+            <ul class="navbar-nav">
+                <li><a href="#"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="{% url 'admin_login'%}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar">
+            <ul>
+                <a href="{% url 'dashboard' %}"><li ><i class="fas fa-tachometer-alt"></i> Dashboard</li></a>
+                <a href="{% url 'user_management' %}"><li><i class="fas fa-users"></i> Users</li></a>
+                <a href="{% url 'image_management' %}"><li><i class="fas fa-image"></i> Images</li></a>
+                <a href="{% url 'complaints_section' %}"><li><i class="fas fa-exclamation-circle"></i> Complaints</li></a>
+                <a href="{% url 'withdrawal_requests' %}"><li><i class="fas fa-dollar-sign"></i> Withdrawals</li></a>
+                
+                <a href="{% url 'user_verification_requests' %}"><li><i class="fas fa-user-check"></i>Verification</li></a>
+                <a href="{% url 'contact_us' %}"><li><i class="fas fa-envelope"></i> Contact Us</li></a>
+            </ul>
+        </div>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <script src="{% static 'js/admin.js'%}"></script>
+</body>
+</html>

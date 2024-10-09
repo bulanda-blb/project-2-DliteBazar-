@@ -1,0 +1,132 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{category}}</title>
+    <link rel=" stylesheet" type="text/css" href="{% static 'css/display_products.css' %}">
+    <link rel=" stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    <link rel=" stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
+    <link rel=" stylesheet" type="text/css" href="{% static 'css/searched_products.css' %}">
+
+
+</head>
+<body>
+    
+    <header>
+        <div class="logo-section">
+            <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+            <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+        </div>
+        <nav>
+            <ul>
+                <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                        <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                        <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                        <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                        <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                        <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                        <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                        <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                        <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                        <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                        <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                        <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Video</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Documentary</a></li>
+                        <li><a href="#">Short Films</a></li>
+                        <li><a href="#">Music Videos</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Audios</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Podcasts</a></li>
+                        <li><a href="#">Sound Effects</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">AI Generator</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Text to Image</a></li>
+                        <li><a href="#">Text to Video</a></li>
+                        <li><a href="#">Voice Synthesis</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Art & Design</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Illustrations</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">3D Models</a></li>
+                        <li><a href="#">Logos</a></li>
+                        <li><a href="#">Web Templates</a></li>
+                        <li><a href="#">Frame Design</a></li>
+                        <li><a href="#">God and Goddess</a></li>
+                        <li><a href="#">Characters</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="{% url 'search_products'%}"><strong>Search Products</strong></a>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            
+            {% if is_active and user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+            {% elif is_active and not user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+            {% endif %}
+            {% if not is_active %}
+            <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+            {% endif %}
+            <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+
+    <div class="cover">
+        <img src="{% static 'images/background.jpg' %}">
+        <div class="slogan">
+            <h1>Unleash your creativity with unrivaled images, videos, audios. Add wonder to your stories with 100+ photos and illustrations</h1> <br>
+            <a href="{% url 'search_products' %}" class="search-more-btn">Search</a>
+        </div>
+        
+    </div>
+
+
+    <div class="display_container12">
+        {% if images %}
+        {% for i in images %}
+        <div class="display_item12">
+            <a href="{% url 'product_details' image_id=i.image_id %}">
+                <img src="{% url 'watermarked_image_view' i.image_id %}" alt="{{ i.title }}">
+            </a>
+            <div class="buttons12">
+                <form method = "POST" action = "{% url 'like_image' i.image_id %}">
+                    {% csrf_token %}
+                <button type="submit" name="liked" class="like-button12" ">♡</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2>No any images found!!</h2>
+        {% endif %}
+    </div>
+    
+    {% comment %} {% url 'product_details' product_id=i.image_id %} {% endcomment %}
+        
+
+    
+    <div class="last-section">
+        <P class="copyright-text">© 2024 DliteBazar. All rights reserved.</P>
+    </div>
+
+</body>
+</html>

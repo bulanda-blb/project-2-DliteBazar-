@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction History</h1>
+        <strong><p class="withdraw_message">You can withdraw your balance if remaining balance is Rs 100 or grater.</p></strong>
+        <strong><p class="withdraw_message">It will cost 10% of every withdrawal request as platform charge.</p></strong>
+        <div class="summary">
+            <div class="summary-item">
+                <span>Total Earned:</span>
+                <span><strong>Rs: {{ context.total_earned }}</strong></span>
+            </div>
+            <div class="summary-item">
+                <span>Remaining Balance:</span>
+                <span><strong>Rs: {{ context.remaining_balance }}</strong></span>
+            </div>
+            <div class="summary-item">
+                <span>Withdrawn Amount:</span>
+                <span><strong>Rs: {{ context.withdrawn_amount }}</strong></span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="earnings">
+                {% for month, items in context.grouped_earnings.items %}
+                    <div class="month-section">
+                        <h2>{{ month }}</h2>
+                        <div class="earnings-list">
+                            {% for item in items %}
+                                <div class="earning-item">
+                                    <div class="image">
+                                        <img src="{{ item.image.image_file.url }}" alt="Image">
+                                    </div>
+                                    <div class="details">
+                                        <p>Image ID: {{ item.image.image_id }}</p>
+                                        <p>Title: {{ item.image.title }}</p>
+                                        <p>Price (Rs): {{ item.image.price }}</p>
+                                        <p>Category: {{ item.image.category }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="withdraw-section">
+                {% if context.remaining_balance >= 100.00 %}
+                <h2>Withdraw Funds</h2>
+
+                    {% if valid_error.amount %}
+                    <p class="errors">{{valid_error.amount}} </p>
+                    {% elif valid_error.payment_method %}
+                    <p class="errors">{{valid_error.payment_method}} </p>
+                    {% elif valid_error.account_name %}
+                    <p class="errors">{{valid_error.account_name}} </p>
+                    {% elif valid_error.account_number %}
+                    <p class="errors">{{valid_error.account_number}} </p>
+                    {% elif valid_error.bank_name %}
+                    <p class="errors">{{valid_error.bank_name}} </p>
+                    {% elif valid_error.remaining_balance %}
+                    <p class="errors">{{valid_error.remaining_balance}} </p>
+                    {% elif valid_error.amount_exceed %}
+                    <p class="errors">{{valid_error.amount_exceed}} </p>
+                    {% endif %}
+
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" >
+                    <label for="payment_method">Payment Method:</label>
+                    <select id="payment_method" name="payment_method" >
+                        <option value="bank">Bank</option>
+                        
+                    </select>
+                    
+                        <label for="account_name">Account Name:</label>
+                        <input type="text" id="account_name" name="account_name">
+                        <label for="account_number">Account Number:</label>
+                        <input type="text" id="account_number" name="account_number">
+                        <label for="bank_name">Bank Name:</label>
+                        <input type="text" id="bank_name" name="bank_name">
+                    
+                    <button type="submit" name="withdraw_request">Submit</button>
+                </form>
+                {% endif %}
+                {% if context.grouped_withdrawals %}
+                <h2>Withdrawn Amounts</h2>
+                <div class="withdrawn-list">
+                    {% for month, withdrawals in context.grouped_withdrawals.items %}
+                        <div class="month-section">
+                            <h3>{{ month }}</h3>
+                            <div class="withdraw-list">
+                                {% for withdrawal in withdrawals %}
+                                    <div class="withdraw-item {% if withdrawal.status == 'pending' %}pending{% endif %}">
+                                        <p><strong>Amount (Rs):</strong><small> {{ withdrawal.amount }}</small></p>
+                                        <p><strong>Platform comission (Rs):</strong><small> {{ withdrawal.comission }}</small></p>
+                                        <p><strong>Transfer Amount (Rs):</strong><small> {{withdrawal.to_be_paid}}</small></p>
+                                        <p><strong>Method:</strong><small> {{ withdrawal.payment_method }}</small></p>
+                                        <p><strong>Bank:</strong><small> {{ withdrawal.bank_name }}</small></p>
+                                        <p><strong>Account Name:</strong><small> {{ withdrawal.account_name }}</small></p>
+                                        <p><strong>Account Number:</strong><small> {{ withdrawal.account_number }}</small></p>
+                                        <p ><strong>Status:</strong><small class="status"> {{ withdrawal.status }}</small></p>
+                                        <p><strong>Requested Date:</strong><small> {{ withdrawal.request_date|date:"Y-m-d H:i:s" }}</small></p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/transactions.js' %}"></script>
+</body>
+</html>

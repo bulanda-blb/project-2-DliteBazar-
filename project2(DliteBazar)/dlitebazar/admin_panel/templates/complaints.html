@@ -1,0 +1,97 @@
+{% extends 'admin.html' %}
+
+{% block title %}Support Tickets{% endblock %}
+
+{% block content %}
+<div class="support-tickets">
+    <h1>Support Tickets</h1>
+    <!-- Search Bar -->
+    <form method="GET" action="{% url 'complaints_section' %}" class="search-form">
+        <input type="text" name="search_query" value="{{ search_query }}" placeholder="Search by Ticket ID, User ID, or Topic" class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    <!-- Pending Tickets Section -->
+    <div class="tickets-section">
+        <h2>Pending Tickets</h2>
+        {% for ticket in context.pending_tickets %}
+        {% if forloop.first or ticket.submit_datetime|date:"Y-m-d" != previous_date %}
+        <div class="ticket-date">
+            <h3>{{ ticket.submit_datetime|date:"Y-m-d" }}</h3>
+        </div>
+        {% endif %}
+        <div class="ticket-item" data-status="{{ ticket.status }}">
+            <div class="ticket-info">
+                <h3>{{ ticket.subject }}</h3>
+                <p><strong>Description:</strong> {{ ticket.description }}</p>
+                <div class="participants">
+                    <span class="participant user">User</span>
+                    <span class="participant admin">Admin</span>
+                </div>
+            </div>
+            <div class="status">
+                <span class="status-indicator {{ ticket.status }}">{{ ticket.get_status_display }}</span>
+            </div>
+            <a href="{% url 'ticket_details' ticket.ticket_id %}" class="view-details-btn">View Details</a>
+        </div>
+        {% with ticket.submit_datetime|date:"Y-m-d" as previous_date %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+
+    <!-- In Progress Tickets Section -->
+    <div class="tickets-section">
+        <h2>In Progress Tickets</h2>
+        {% for ticket in context.progress_tickets %}
+        {% if forloop.first or ticket.submit_datetime|date:"Y-m-d" != previous_date %}
+        <div class="ticket-date">
+            <h3>{{ ticket.submit_datetime|date:"Y-m-d" }}</h3>
+        </div>
+        {% endif %}
+        <div class="ticket-item" data-status="{{ ticket.status }}">
+            <div class="ticket-info">
+                <h3>{{ ticket.subject }}</h3>
+                <p><strong>Description:</strong> {{ ticket.description }}</p>
+                <div class="participants">
+                    <span class="participant user">User</span>
+                    <span class="participant admin">Admin</span>
+                </div>
+            </div>
+            <div class="status">
+                <span class="status-indicator {{ ticket.status }}">{{ ticket.get_status_display }}</span>
+            </div>
+            <a href="{% url 'ticket_details' ticket.ticket_id %}" class="view-details-btn">View Details</a>
+        </div>
+        {% with ticket.submit_datetime|date:"Y-m-d" as previous_date %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+
+    <!-- Solved Tickets Section -->
+    <div class="tickets-section">
+        <h2>Solved Tickets</h2>
+        {% for ticket in context.solved_tickets %}
+        {% if forloop.first or ticket.submit_datetime|date:"Y-m-d" != previous_date %}
+        <div class="ticket-date">
+            <h3>{{ ticket.submit_datetime|date:"Y-m-d" }}</h3>
+        </div>
+        {% endif %}
+        <div class="ticket-item" data-status="{{ ticket.status }}">
+            <div class="ticket-info">
+                <h3>{{ ticket.subject }}</h3>
+                <p><strong>Description:</strong> {{ ticket.description }}</p>
+                <div class="participants">
+                    <span class="participant user">User</span>
+                    <span class="participant admin">Admin</span>
+                </div>
+            </div>
+            <div class="status">
+                <span class="status-indicator {{ ticket.status }}">{{ ticket.get_status_display }}</span>
+            </div>
+            <a href="{% url 'ticket_details' ticket.ticket_id %}" class="view-details-btn">View Details</a>
+        </div>
+        {% with ticket.submit_datetime|date:"Y-m-d" as previous_date %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,194 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+a{
+    text-decoration: none;
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff3333;
+    text-decoration: none;
+}
+#dlitebazar-logo img{
+    height: 100px;
+    width: 100px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    position: relative;
+}
+
+nav li {
+    margin: 0 15px;
+    position: relative;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    position: relative;
+}
+
+nav a:hover,
+nav a.active {
+    color: #ff3333;
+}
+
+nav a:hover::after,
+nav a.active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ff3333;
+    left: 0;
+    bottom: -5px;
+}
+
+.has-dropdown:hover .dropdown {
+    display: block;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.dropdown li {
+    margin: 0;
+}
+
+.dropdown a {
+    padding: 10px 20px;
+    display: block;
+    color: #fff;
+}
+
+.dropdown a:hover {
+    background-color: #444;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions a {
+    text-decoration: none;
+    color: #fff;
+    margin-left: 20px;
+    font-size: 16px;
+    position: relative;
+}
+
+.user-actions #liked-photos,
+.user-actions #cart {
+    font-size: 20px;
+}
+
+.user-actions .login-btn,
+.user-actions .signup-btn {
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.user-actions .login-btn {
+    background-color: transparent;
+    border: 1px solid #fff;
+}
+
+.user-actions .signup-btn {
+    background-color: #ff3333;
+    border: 1px solid #ff3333;
+    color: white;
+}
+
+.user-actions .login-btn:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+.user-actions .signup-btn:hover {
+    background-color: transparent;
+    color: #ff3333;
+}
+
+main {
+    background-size: cover;
+    background-image: url('background.jpg');
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.search-container {
+    background: rgba(0, 0, 0, 0.671);
+    margin-top: 80px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.search-bar {
+    display: flex;
+    margin-top: 20px;
+}
+.search-bar form{
+    display: flex;
+    flex: auto;
+}
+
+.search-bar select,
+.search-bar input,
+.search-bar button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-bar select {
+    flex: 1;
+}
+
+.search-bar input {
+    flex: 3;
+    width: 180px;
+}
+
+.search-bar button {
+    background-color: #ff3333;
+    color: white;
+    cursor: pointer;
+}
+
+.trending {
+    margin-top: 20px;
+    font-size: 14px;
+}

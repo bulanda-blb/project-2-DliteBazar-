@@ -1,0 +1,56 @@
+.display_container12 {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* columns: 4; */
+    column-gap: 5px;
+    background-color: rgba(77, 226, 89, 0.493);
+    margin-top: 110px;
+    
+}
+.display_container123 {
+    padding: 10px;
+    columns: 4;
+    column-gap: 5px;
+    background-color: rgba(77, 226, 89, 0.493);
+    
+}
+
+.display_item12 {
+    position: relative;
+    margin-bottom: 5px;
+    break-inside: avoid;
+}
+
+.display_item12 img {
+    width: 327px;
+    height: 327px;
+    border: solid rgb(104, 104, 170) 0.2px;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+}
+
+.display_item12 .buttons12 {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.display_item12:hover .buttons12 {
+    opacity: 1;
+}
+
+.display_item12 .cart-button12,
+.display_item12 .like-button12 {
+    font-size: 30px; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white; /* Initial button color */
+    transition: color 0.3s ease;
+}

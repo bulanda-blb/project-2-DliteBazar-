@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchased Image Details</title>
+    <link rel="stylesheet" href="{% static 'css/purchased_image_details.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="image-section">
+            <img src="{{purchased_details.image.image_file.url}}" alt="Purchased Image" class="full-image">
+            <div class="download-button">
+                <a href="{{purchased_details.image.image_file.url}}" download><span>&#x2B07;</span> Download Full Size</a>
+            </div>
+        </div>
+        <div class="details-section">
+            <div class="header">
+                <h1>Purchased Item Details</h1>
+                <p><strong>Uploaded By:</strong> {{purchased_details.purchase_from.first_name}}</p>
+                <p><strong>Purchased Time:</strong> {{purchased_details.purchase_date}}</p>
+            </div>
+            <div class="info-feedback-row">
+                <div class="info-box">
+                    <h2>Details</h2>
+                    <p><strong>Title:</strong> {{ purchased_details.image.title }}</p>
+                    <p><strong>Category:</strong> {{ purchased_details.image.category }}</p>
+                    <p><strong>Subcategory:</strong> {{ purchased_details.image.subcategory }}</p>
+                    <p><strong>Paid Amount(Rs):</strong> {{ purchased_details.paid_amount }}</p>
+                    <p><strong>Description:</strong> {{ purchased_details.image.description }}</p>
+                    <p><strong>Keywords:</strong> {{ purchased_details.image.keywords }}</p>
+                    <p><strong>Size:</strong> {{ purchased_details.image.size }}</p>
+                    <p><strong>Format:</strong> {{ purchased_details.image.file_format }}</p>
+                    <p><strong>Resolution:</strong> {{ purchased_details.image.resolution }}</p>
+                    <p><strong>DPI:</strong> {{ purchased_details.image.dpi }}</p>
+                    <p><strong>Uploaded Date:</strong> {{ purchased_details.image.uploaded_datetime }}</p>
+                    <p><strong>Likes:</strong> {{ purchased_details.image.liked_by_counter }}</p>
+                    <p><strong>Sold Multiple(*) :</strong> {{ purchased_details.image.sold_multiple_counter }}</p>
+                </div>
+                <div class="feedback-box">
+                    {% if rating_data %}
+                    <h2>Your Rating and Review</h2>
+                    <div class="rating-display">
+                        <div class="stars-display">
+                            {% for i in "12345" %}
+                                {% if forloop.counter0 < rating_data.star_rating %}
+                                    <span class="star">&#9733;</span>
+                                {% else %}
+                                    <span class="star inactive">&#9733;</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p><strong>Review:</strong> {{ rating_data.image_review }}</p>
+                        <p><small>submitted date:{{ rating_data.created_at }}</small></p>
+                        <button class="edit-review-button">Edit Review</button>
+                    </div>
+                    {% else %}
+                    <h2>Review & Rating</h2>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="rating">
+                            <p>Rating:</p>
+                            <div class="stars">
+                                <input type="radio" id="star1" name="rating" value="1"><label for="star1">&#9733;</label>
+                                <input type="radio" id="star2" name="rating" value="2"><label for="star2">&#9733;</label>
+                                <input type="radio" id="star3" name="rating" value="3"><label for="star3">&#9733;</label>
+                                <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
+                                <input type="radio" id="star5" name="rating" value="5"><label for="star5">&#9733;</label>
+                            </div>
+                        </div>
+                        <textarea name="feedback" placeholder="Enter your feedback and review..." rows="4"></textarea>
+                        <button class="submit-feedback" type="submit" name="review">Submit Review</button>
+                    </form>
+                    {% endif %}
+                </div>
+                
+                
+            </div>
+            <div class="report-contributor-row">
+                
+                <div class="contributor-box">
+                    <h2>Contributor</h2>
+                    <div class="contributor-info">
+                        {% if purchased_details.purchase_from.profile_picture %}
+                        <img src="{{ purchased_details.purchase_from.profile_picture.url }}" alt="Contributor Image">
+                        {% else %}
+                        <img src="{% static 'images/profile.png' %}" alt="Contributor Image">
+                        {% endif %}
+                        <p>{{purchased_details.image.user.first_name}}</p>
+                    </div>
+                    {% comment %} <button class="chat-button">Chat with Contributor</button> {% endcomment %}
+                    <a href="{% url 'profile_page'%}"><button class="chat-button2">Back to Profile</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit Review Modal -->
+    <div id="edit-review-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Edit Your Review</h3>
+            <form id="edit-review-form" method="POST" action="">
+                {% csrf_token %}
+                <div class="edit-rating">
+                    <p>Rating:</p>
+                    <div class="edit-stars">
+                        {% for i in "12345" %}
+                            <input type="radio" id="edit-star{{i}}" name="edit_rating" value="{{i}}"
+                                {% if rating_data and rating_data.star_rating == forloop.counter %} checked {% endif %}>
+                            <label for="edit-star{{i}}" class="{% if rating_data and rating_data.star_rating >= forloop.counter %}selected{% endif %}">&#9733;</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <textarea name="edit_feedback" rows="4">{{ rating_data.image_review }}</textarea>
+                <button class="submit-feedback" type="submit" name="edit_review">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/purchased_image_details.js' %}"></script>
+</body>
+</html>

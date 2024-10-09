@@ -1,0 +1,51 @@
+{% extends 'admin.html' %}
+
+{% block title %}Ticket Details{% endblock %}
+
+{% block content %}
+<div class="ticket-details">
+    <h1>{{ context.ticket.subject }}</h1>
+    <p><strong>Description:</strong> {{ context.ticket.description }}</p>
+    {% if context.ticket.image_upload %}
+    <div class="ticket-image">
+        
+        <a href="{{ context.ticket.image_upload.url }}" target="_blank">View File</a>
+    </div>
+    {% endif %}
+    <div class="ticket-status">
+        <strong>Status:</strong> <span class="status-indicator {{ ticket.status }}">{{ context.ticket.get_status_display }}</span>
+    </div>
+
+    <div class="discussion-section">
+        <h2>Discussion</h2>
+        <div class="discussion-messages">
+            {% for discussion in context.discussions %}
+            <div class="discussion-message {% if discussion.is_user %}user-message{% else %}admin-message{% endif %}">
+                <p>
+                    <strong>
+                        {% if not discussion.sender %}admin{% else %}{{discussion.sender.first_name}}{% endif %}
+                    </strong>
+                         {{ discussion.message }}
+                </p>
+
+                {% if discussion.file_upload %}
+                <div class="discussion-file">
+                    <a href="{{ discussion.file_upload.url }}" target="_blank">View File</a>
+                </div>
+                {% endif %}
+                <p><small>Sent on: {{ discussion.timestamp }}</small></p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if not context.ticket.status == 'solved' %}
+        <form method="POST" action="" enctype="multipart/form-data" class="discussion-form">
+            {% csrf_token %}
+            <textarea name="message" rows="4" placeholder="Your message..."></textarea>
+            <input type="file" name="file_upload" accept="image/*">
+            <button type="submit" name="submit_discussion">Reply</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

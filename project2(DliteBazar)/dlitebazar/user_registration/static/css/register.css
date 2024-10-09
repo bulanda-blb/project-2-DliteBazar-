@@ -1,0 +1,88 @@
+body{
+    background-color: #79b9e7;
+    background-image: url(photo/4.jpg);
+    background-position: center;
+    background-size: cover;
+}
+    .signup{
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 80px;
+    padding: 60px;
+    background-color: aliceblue;
+    text-align: center;
+    font-size: larger;
+    border-radius: 20px;
+    
+    }
+    
+      
+    .signup form input {
+        width: 70%;
+        padding: 9px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        box-shadow: 2px 5px 10px #84ccee;
+        
+        
+      }
+      .error-message{
+        color: #ff0000;
+      
+      }
+      .error-phone-message{
+        color: #ff0000;
+     
+      }
+     
+      .signup form select{
+        width: 74%;
+        padding: 9px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        box-shadow: 2px 5px 10px #6cc7ef;
+      }
+      select:required:invalid{
+        color: #666;
+      }
+      option[value=""][disabled]{
+        display:none;
+      }
+      option{
+        color: #000;
+      }
+      .signup form button {
+        width: 40%;
+        padding: 12px;
+        background-color: #30c023;
+        color: #fff;
+        border:#fff;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        margin-bottom: 15px;
+        margin-top: 20px;
+      }
+      .signup button:active{
+        transform: scale(0.8);
+      }
+      .signuptext{
+        margin-bottom: 35px;
+        color: rgb(28, 14, 216); 
+        font-size: 20px; 
+      }
+     
+      .error-msg{
+        color: crimson;
+        margin-left: 10px;
+      }
+
+
+      .login-part{
+        color: rgb(87, 15, 168);
+        font-size: 15px;
+        text-decoration: none;
+        font-weight: 300;
+      }

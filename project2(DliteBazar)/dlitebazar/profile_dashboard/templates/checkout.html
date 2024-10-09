@@ -1,0 +1,226 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo-section">
+            <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+            <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+        </div>
+        <nav>
+            <ul>
+                <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                        <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                        <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                        <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                        <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                        <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                        <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                        <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                        <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                        <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                        <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                        <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Video</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Documentary</a></li>
+                        <li><a href="#">Short Films</a></li>
+                        <li><a href="#">Music Videos</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Audios</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Podcasts</a></li>
+                        <li><a href="#">Sound Effects</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">AI Generator</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Text to Image</a></li>
+                        <li><a href="#">Text to Video</a></li>
+                        <li><a href="#">Voice Synthesis</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Art & Design</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Illustrations</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">3D Models</a></li>
+                        <li><a href="#">Logos</a></li>
+                        <li><a href="#">Web Templates</a></li>
+                        <li><a href="#">Frame Design</a></li>
+                        <li><a href="#">God and Goddess</a></li>
+                        <li><a href="#">Characters</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            
+            {% if is_active and user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+            {% elif is_active and not user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+            {% endif %}
+            {% if not is_active %}
+            <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+            {% endif %}
+            <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+
+
+
+
+    <div class="checkout-container">
+        <div class="image-section">
+            <img src="{% url 'watermarked_image_view' image.image_id %}" alt="Image" id="image-display">
+            <h2>Image Title:<span>{{image.title}}</span></h2>
+            <p><span>Description:</span>{{image.description}}</p>
+            <p><span>Category:</span>{{image.category}}</p>
+            <p><span>Subcategory:</span>{{image.subcategory}}</p>
+            <p><span>Price:(Rs)</span>{{image.price}}</p>
+            <p><span>Size:</span>{{image.size}} KB</p>
+            <p><span>Resolution:</span>{{image.dpi}}</p>
+            <p><span>Format:</span>{{image.file_format}}</p>
+            <p><span>Uploaded Date:</span>{{image.uploaded_datetime}}</p>
+            
+        </div>
+        <div class="checkout-section">
+            <h2>Checkout</h2>
+            <form id="checkout-form" method="POST" action="">
+                {% csrf_token %} 
+                <div class="form-group">
+                    <label for="address">Full Address*:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number(+977)*:</label>
+                    <input type="tel" id="phone"  name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method:</label>
+                    <label><input type="radio" name="payment_method" value="esewa" required><img src ="{% static 'images/esewa.png' %}"> eSewa </label>
+                    <label><input type="radio" name="payment_method" value="khalti" required><img src ="{% static 'images/khalti.png' %}"> Khalti</label>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" name="terms" required> I agree to the <a href="#" onclick="openTermsModal()">terms and conditions</a></label>
+                </div>
+                
+                <div class="summary-box">
+                    <h3>Summary</h3>
+                    <div class="summary-item">
+                        <span>Amount(Rs):</span>
+                        <span>{{image.price}}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>available rewad points:</span>
+                        <span>{{rewards}}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Discounted Amount(Rs):</span>
+                        <span>{{discount}}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Amount(Rs):</span>
+                        <span>{{total}}</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                    <span>Earn Reward Points:</span>
+                    <span>{{earn}}</span>
+                    </div>
+                    
+                </div>
+                <button type="submit" name = "purchase" class="purchase-btn">Purchase</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTermsModal()">&times;</span>
+            <h2>Terms and Conditions</h2>
+            <ol class="terms-list">
+                <li>
+                    <strong>All purchases are final and non-refundable.</strong>
+                    Once you complete a purchase, it is final and cannot be refunded. Please ensure that you are certain about your purchase before proceeding.
+                </li>
+                <li>
+                    <strong>The image, video, and audio files are for personal use only.</strong>
+                    The purchased files are intended for your personal use and enjoyment. They cannot be shared or distributed to others without proper licensing.
+                </li>
+                <li>
+                    <strong>Reselling or redistributing the purchased files is strictly prohibited.</strong>
+                    You are not allowed to resell or redistribute the files in any form. This helps protect the rights of the original creator and maintain the value of the content.
+                </li>
+                <li>
+                    <strong>You may not claim the purchased files as your own work.</strong>
+                    It is important to respect the intellectual property of the creators. Claiming the work as your own is considered plagiarism and is against our terms.
+                </li>
+                <li>
+                    <strong>The files are licensed to you, not sold.</strong>
+                    When you purchase files, you are obtaining a license to use them under specific conditions, not ownership of the files themselves.
+                </li>
+                <li>
+                    <strong>You may use the files for commercial purposes with proper attribution.</strong>
+                    Commercial use of the files is allowed if you provide proper credit to the creator. This means acknowledging their work in a visible and appropriate manner.
+                </li>
+                <li>
+                    <strong>We are not responsible for any misuse of the files.</strong>
+                    Once you purchase and download the files, it is your responsibility to use them correctly. Any misuse, intentional or otherwise, is not our responsibility.
+                </li>
+                <li>
+                    <strong>By purchasing, you agree to our privacy policy.</strong>
+                    Your purchase indicates that you have read and agree to our privacy policy, which outlines how your personal information is handled and protected.
+                </li>
+                <li>
+                    <strong>Unauthorized sharing of the files will result in legal action.</strong>
+                    Sharing the files without authorization violates our terms and will be met with legal consequences to protect the rights of the creator.
+                </li>
+                <li>
+                    <strong>We reserve the right to change these terms at any time.</strong>
+                    Our terms and conditions may be updated periodically. It is your responsibility to stay informed about any changes by reviewing the terms regularly.
+                </li>
+                <li>
+                    <strong>Files are provided 'as is' without warranties of any kind.</strong>
+                    The files are provided without any guarantees or warranties regarding their quality, suitability, or functionality.
+                </li>
+                <li>
+                    <strong>You are responsible for ensuring compatibility with your devices.</strong>
+                    It is your responsibility to ensure that the purchased files are compatible with your devices and software before making a purchase.
+                </li>
+                <li>
+                    <strong>Use of files in a manner that violates laws is prohibited.</strong>
+                    The files must not be used in any way that contravenes local, national, or international laws. Any illegal use is strictly prohibited.
+                </li>
+                <li>
+                    <strong>You must not use the files in a way that harms the reputation of the creator.</strong>
+                    Using the files in any context that could damage the reputation or integrity of the creator is prohibited. This includes but is not limited to defamatory uses.
+                </li>
+                <li>
+                    <strong>Support for purchased files is limited to specific issues.</strong>
+                    Support is available for issues directly related to the files' functionality and compatibility. Other types of support, such as customization or modifications, may not be provided.
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="{% static 'js/checkout.js' %}"></script>
+</body>
+</html>

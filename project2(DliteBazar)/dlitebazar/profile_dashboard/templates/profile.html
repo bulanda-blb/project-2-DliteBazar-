@@ -1,0 +1,637 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <button class="toggle-btn" id="toggle-btn" onclick="toggleSidebar()">☰</button>
+            <ul>
+                <li class="active" id="dashboard-option" onclick="showContent('dashboard'), highlightOption(this)"><span>🏠</span> <span class="text">My dashboard</span></li>
+                <li id="accounts-option" onclick="showContent('accounts'), highlightOption(this)"><span>💸</span> <span class="text">Sell Products</span></li>
+                <li id="accounts-option" onclick="showContent('products'), highlightOption(this)"><span>💼</span> <span class="text">Your Products</span></li>
+                <li id="mobile-option" onclick="showContent('purchased-products'), highlightOption(this)"><span>💸</span> <span class="text">Purchased</span></li>
+                <li id="mobile-option" onclick="showContent('purchased-products1'), highlightOption(this)"><span>💼</span> <span class="text">Sold Products</span></li>
+                {% comment %} <li id="payments-option" onclick="showContent('chat-box'), highlightOption(this)"><span>📱</span> <span class="text">ChatBox</span></li> {% endcomment %}
+                <li id="complaints-option" onclick="showContent('complaints'), highlightOption(this)"><span>📣</span> <span class="text">Disputes</span></li>
+                <li id="supports-option" onclick="showContent('supports'), highlightOption(this)"><span>🛠️</span> <span class="text">Supports</span></li>
+            </ul>
+        </div>
+        <div class="main-content" id="main-content">
+            <div class="top-bar">
+                <span>Hello {{user.first_name}}</span>
+                
+            </div>
+            
+            <div class="content" id="content">
+                <div id="dashboard" class="content-section">
+                    <!-- Dashboard Content -->
+                    <div class="row">
+                        <div class="box profile">
+                            <div class="profile-content">
+                                <div class="profile-info">
+                                    <h3>{{full_name}}</h3>
+                                    <p>Username: {{user.username}}</p>
+                                    <p>{{user.email}}</p>
+                                    
+                                    <form method = "POST", action = "">
+                                        {% csrf_token %}
+                                    <button name="logout" type = "submit" >Logout</button>
+                                    </form>
+                                    <a href="{% url 'home_page' %}"><button name="logout" type = "submit" >Home Page</button></a>
+                                </div>
+                                <div class="profile-picture">
+                                    {% if not user.profile_picture %}
+                                    <img src="{% static 'images/profile.png' %}" alt="Profile Picture" class="profile-img">
+                                    {% else %}
+                                    <img src="{{ profile_picture.url }}" alt="Profile Picture" class="profile-img">
+                                    {% endif %}
+                                    
+                                    
+                                    <button class="edit-btn" onclick="openUploadForm()">📸</button>   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box accounts">
+                            <h3>Contact Information</h3>
+                            <p>Phone Number:(+977) {% if user.phone_number %}{{user.phone_number}}{%else%} 983-456-7890 {%endif%}<button class="edit-btn" onclick="openEditForm('phone')">✎</button></p>
+                            <p>Address: {% if user.address %}{{user.address}}{%else%} Kathmandu, 00 nepal {%endif%}<button class="edit-btn" onclick="openEditForm('address')">✎</button></p>
+                            <p>Postal Code: {% if user.postal_code %}{{user.postal_code}}{%else%} 12345 {%endif%}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        <div id="box-bills" class="box bills">
+                            <h2>My Bills</h2>
+                            <div class="content">
+                                <div class="row">
+                                    <!-- Total Earned Amount Box -->
+                                    <div class="earnings-box box">
+                                        <h3>Total Earned</h3>
+                                        <p class="amount">Rs {% if total_earning %}{{total_earning}}{% else %}0.00{% endif %}</p>
+                                    </div>
+                                    <!-- Remaining Amount Box -->
+                                    <div class="remaining-box box">
+                                        <h3>Remaining to Withdraw</h3>
+                                        <p class="amount">Rs {% if remaining_withdrawn %}{{remaining_withdrawn}}{% else %}0.00{% endif %}</p>
+                                        
+                                    </div>
+                                </div>
+                                <!-- View All Transactions Button -->
+                                <div class="view-transactions">
+                                    <a href="{% url 'transactions' %}"><button class="view-all-btn">View All Transactions</button></a>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+
+                        <div class="box notification">
+                            <h2>Recent Notifications</h2>
+                            <div class="notification-message">
+                                {% if context.notification1 %}
+                                    <p><strong>Message 1:</strong>{{context.notification1.message}}• {{context.notification1.created_at}}</p>
+                                {% else %}
+                                <p><strong>Message 1:</strong> Lorem ipsum dolor sit amet.</p>
+                                {% endif %}
+
+                                {% if context.notification2 %}  
+                                    <p><strong>Message 2:</strong>{{context.notification2.message}}• {{context.notification2.created_at}}</p>  
+                                {% else %}
+                                <p><strong>Message 2:</strong> Lorem ipsum dolor sit amet.</p>
+                                {% endif %}
+
+                                {% if context.notification3 %}  
+                                    <p><strong>Message 3:</strong>{{context.notification3.message}}• {{context.notification3.created_at}}</p>  
+                                {% else %}
+                                <p><strong>Message 3:</strong> Lorem ipsum dolor sit amet.</p>
+                                {% endif %}
+
+                                {% if context.notification4 %}  
+                                    <p><strong>Message 4:</strong>{{context.notification4.message}}• {{context.notification4.created_at}}</p>  
+                                {% else %}
+                                <p><strong>Message 4:</strong> Lorem ipsum dolor sit amet.</p>
+                                {% endif %}
+                                
+                            </div>
+                            <div class="notification-actions">
+                                {% comment %} <label class="email-notification-label">Email Notification:</label>
+                            <form id = "notification-form" method="POST" action="">
+                                {% csrf_token %}
+                                <label class="switch">
+                                    <input id="email-notification" type="checkbox" name="email_notification" {% if user.is_email_notification %} checked {% endif %} onchange="submitNotificationForm()">
+                                    <span class="slider round"></span>
+                                </label>
+                            </form> {% endcomment %}
+                                <a href="{% url 'notifications'%}"><button class="view-all-btn" >View All Notifications</button></a>
+                            </div>
+                        </div>
+                        
+                                               
+
+
+                    </div>
+                </div>
+
+                <div id="accounts" class="content-section" style="display: none;">
+                    
+                    <div class="profile-section">
+                        <div class="profile-infos">
+                            <div class="profile-picture">
+                                {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-img">
+                                {% else %}
+                                <img src="{% static 'images/profile.png' %}" alt="Profile Picture" class="profile-img">
+                                {% endif %}
+                                {% if user.is_verified %}
+                                <span class="verified-badge" title="Verified">✓</span>
+                                {% endif %}
+                            </div>
+                            <div class="profile-details">
+                                <h2>{{full_name}}</h2>
+                                <p>Username: {{user.username}}</p> 
+                                <p>Status: {% if user.is_verified %} verified {% else %} unverified {% endif %} </p>
+                                
+                            </div>
+                        </div>
+                        {% if user.is_verified == True %}
+                        <div class="verification-section">
+                            <h2>You are verified seller</h2>
+                            <p>You can start selling. Enjoy selling images:</p>
+                          
+                        </div>
+                        {% elif user.is_verified == False %}
+                        {% if not verification_requests %}
+                        <div class="verification-section">
+                            <h2>You want to get Verified?</h2>
+                            <p>You need to verify your account to start selling. Click below to verify:</p>
+                            <a href="{% url 'user_verification' %}"><button class="verify-btn">Verify Account</button></a>
+                        </div>
+                        {% else %}
+                        <div class="verification-section">
+                            <h2>We received Your request</h2>
+                            <p>Your request is under review, wait for the response</p>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                        
+                        <div class="product-boxes">
+                            <div class="box sell-images" {% if user.is_verified == True %} onclick="openForm()" {% endif %}>
+                                <h3>Sell Images</h3>
+                                {% if user.is_verified == True %}
+                                <p>Click here to sell your images.</p>
+                                {% else %}
+                                <p>Verify account to sell your images.</p>
+                                {% endif %}
+                            </div>
+                            <div class="box sell-audio">
+                                <h3>Sell Audio</h3>
+                                <p>Click here to sell your audio files.</p>
+                            </div>
+                            <div class="box sell-videos">
+                                <h3>Sell Videos</h3>
+                                <p>Click here to sell your videos.</p>
+                            </div>
+                            <div class="box sell-art">
+                                <h3>Sell Art & Design</h3>
+                                <p>Click here to sell your art and design works.</p>
+                            </div>
+                        </div>   
+                </div>
+
+                <div id="products" class="content-section" style="display: none;">
+                    
+                    <h2>Your Uploaded Products</h2>
+                    <p>Manage and view your uploaded products in different categories.</p>
+                    
+                    <div class="product-categories">
+                        <div class="product-category" onclick="showCategory('images')">Images</div>
+                        <div class="product-category" onclick="showCategory('audio')">Audio</div>
+                        <div class="product-category" onclick="showCategory('videos')">Videos</div>
+                        <div class="product-category" onclick="showCategory('art')">Art & Design</div>
+                    </div>
+                    
+                    <div id="images-section" class="category-section">
+                        <h3>Your Images</h3>
+                        {% comment %} <div class="product-gallery"> {% endcomment %}
+                            <div class="display_container1">
+                                {% for i in images %}
+                                <div class="display_item1">
+                                    <a href="{% url 'edit_image' image_id=i.image_id %}">
+                                        <img src="{{ i.image_file.url }}" alt="{{ i.title }}">
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% comment %} </div> {% endcomment %}
+                    </div>
+                    
+                    <div id="audio-section" class="category-section">
+                        <h3>Your Audio Files</h3>
+                        <!-- Audio content goes here -->
+                    </div>
+                    
+                    <div id="videos-section" class="category-section">
+                        <h3>Your Videos</h3>
+                        <!-- Video content goes here -->
+                    </div>
+                    
+                    <div id="art-section" class="category-section">
+                        <h3>Your Art & Design</h3>
+                        <!-- Art & Design content goes here -->
+                    </div>
+                
+
+
+                </div>
+
+                <div id="purchased-products" class="content-section" style="display: none;">
+                    <h2>Your Purchased Items</h2>
+                    <p>Manage and view your purchased items in different categories.</p>
+                    
+                    <div class="product-categories">
+                        <div class="product-category" onclick="showCategoryPurchased('images')">Images</div>
+                        <div class="product-category" onclick="showCategoryPurchased('audio')">Audio</div>
+                        <div class="product-category" onclick="showCategoryPurchased('videos')">Videos</div>
+                        <div class="product-category" onclick="showCategoryPurchased('art')">Art & Design</div>
+                    </div>
+                    
+                    <div id="imagesPurchased-section" class="category-section">
+                        <h3>Your Purchased Images</h3>
+                        <div class="display_container1">
+                            {% for i in purchased_images %}
+                            <div class="display_item1">
+                                <a href="{% url 'purchased_image_details' purchased_id=i.id %}">
+                                    <img src="{{ i.image.image_file.url }}" alt="{{ i.image.category }}">
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div id="audioPurchased-section" class="category-section">
+                        <h3>Your Purchased Audio Files</h3>
+                        <!-- Placeholder for purchased audio -->
+                    </div>
+                    
+                    <div id="videosPurchased-section" class="category-section">
+                        <h3>Your Purchased Videos</h3>
+                        <!-- Placeholder for purchased videos -->
+                    </div>
+                    
+                    <div id="artPurchased-section" class="category-section">
+                        <h3>Your Purchased Art & Design</h3>
+                        <!-- Placeholder for purchased art & design -->
+                    </div>
+                </div>
+                
+                <div id="purchased-products1" class="content-section" style="display: none;">
+                    <h2>Your Sold Items</h2>
+                    <p>Manage and view your sold items in different categories.</p>
+                    
+                    <div class="product-categories">
+                        <div class="product-category" onclick="showCategoryPurchased1('images')">Images</div>
+                        <div class="product-category" onclick="showCategoryPurchased1('audio')">Audio</div>
+                        <div class="product-category" onclick="showCategoryPurchased1('videos')">Videos</div>
+                        <div class="product-category" onclick="showCategoryPurchased1('art')">Art & Design</div>
+                    </div>
+                    
+                    <div id="imagesPurchased1-section" class="category-section">
+                        <h3>Your Sold Images</h3>
+                        <div class="display_container1">
+                            {% for i in sold_images %}
+                            <div class="display_item1">
+                                <a href="{% url 'sold_image_details' sold_id=i.id %}">
+                                    <img src="{{ i.image.image_file.url }}" alt="{{ i.image.category }}">
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div id="audioPurchased1-section" class="category-section">
+                        <h3>Your Sold Audio Files</h3>
+                        <!-- Placeholder for purchased audio -->
+                    </div>
+                    
+                    <div id="videosPurchased1-section" class="category-section">
+                        <h3>Your Sold Videos</h3>
+                        <!-- Placeholder for purchased videos -->
+                    </div>
+                    
+                    <div id="artPurchased1-section" class="category-section">
+                        <h3>Your Sold Art & Design</h3>
+                        <!-- Placeholder for purchased art & design -->
+                    </div>
+                </div>
+                
+
+                <div id="chat-box" class="content-section" style="display: none;">
+                    <h2>Communicate With Buyers And Sellers</h2>
+                
+                    <!-- Chat container for persons -->
+                    <div class="chat-container">
+                        <!-- Person 1 Chat -->
+                        <div class="chat-person" id="person1">
+                            <div class="chat-avatar">
+                                <img src="profile.png" alt="Profile Picture">
+                            </div>
+                            <div class="chat-details">
+                                <h3>Person 1</h3>
+                                <p>Last Message: Lorem ipsum dolor sit amet.</p>
+                            </div>
+                        </div>
+                
+                        <!-- Person 2 Chat -->
+                        <div class="chat-person" id="person2">
+                            <div class="chat-avatar">
+                                <img src="profile.png" alt="Profile Picture">
+                            </div>
+                            <div class="chat-details">
+                                <h3>Person 2</h3>
+                                <p>Last Message: Consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                
+                        <!-- Person 3 Chat -->
+                        <div class="chat-person" id="person3">
+                            <div class="chat-avatar">
+                                <img src="profile.png" alt="Profile Picture">
+                            </div>
+                            <div class="chat-details">
+                                <h3>Person 3</h3>
+                                <p>Last Message: Sed do eiusmod tempor incididunt.</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Popup Chat Box -->
+                    <div id="popup-chat" class="form-popup">
+                        <div class="form-container">
+                            <div class="popup-header">
+                                <h3 id="popup-person-name"></h3>
+                                <span class="close-button" onclick="closePopup()">&times;</span>
+                            </div>
+                            <div id="popup-messages" class="chat-messages">
+                                <!-- Chat messages will be dynamically loaded here -->
+                            </div>
+                            <form id="chat-form" class="chat-form">
+                                {% csrf_token %}
+                                <input type="text" id="message-input" placeholder="Type your message...">
+                                <button type="submit" class="submit-button">Send</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+                                <!-- Complaints Section (hidden by default) -->
+                                <div id="complaints" class="content-section" style="display: none;">
+                                    <div class="complaints-header">
+                                        <h2>Complaints Section</h2>
+                                        <p>Here you can view details and discussions about various complaints and your Tickets issues.</p>
+                                    </div>
+                                    <div class="complaints-list">
+                                        <!-- Complaint Item with status and participants -->
+                                        {% if support_tickets %}
+                                        {% for i in support_tickets %}
+                                        <div class="complaint-item" data-status="{{i.status}}">
+                                            <div class="complaint-info">
+                                                <h3>{{i.subject}}</h3>
+                                                <p><strong>Description:</strong>{{i.description}}</p>
+                                                <div class="participants">
+
+                                                    <span class="participant buyer">Buyer</span>
+                                                    {% comment %} <span class="participant seller">Seller</span> {% endcomment %}
+                                                    <span class="participant admin">Admin</span>
+                                                </div>
+                                            </div>
+                                            <div class="status">
+                                                <span class="status-indicator pending">{{i.status}}</span>
+                                            </div>
+                                            <button class="view-details-btn">View Details</button>
+                                            {% if i.status == 'progress' %}
+                                            <a href="{% url 'complaint_solved' i.ticket_id %}"><button class="view-details-btn">My issue is solved</button></a>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <!-- View Details Popup (hidden by default) -->
+                                        <div id="details-popup" class="popup">
+                                            <div class="popup-content">
+                                                <span class="close-btn" onclick="closePopup()">×</span>
+                                                <h2>{{i.subject}}</h2>
+                                                <p><strong style=" font-size:bold; ">Description:</strong>{{i.description}}</p>
+                                                
+                                                <div class="discussion">
+                                                    {% for j in ticket_discussed %}
+                                                    {% if j.ticket == i %}
+                                                    <p><strong>{% if j.sender %}{{ j.sender.first_name }}{% else%}Admin{% endif %}:</strong>{{ j.message }}</p>
+                                                    {% if j.file_upload %}
+                                                    <div class="submitted_discussion_file">
+                                                        {% comment %} <img src="{{j.file_upload.url}}"> {% endcomment %}
+                                                        
+                                                            <a href="{{ j.file_upload.url }}" target="_blank">View File</a>
+                                                        
+                                                    </div>
+                                                    {% endif %}
+                                                    <p><small>Sent on: {{ j.timestamp }}</small></p>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                        
+                                                </div>
+                                                {% if not i.status == 'solved'%}
+                                                <form class="complaint-form" method="POST" action="" enctype="multipart/form-data" >
+                                                    {% csrf_token %}
+                                                    <textarea rows="4" placeholder="Your message..." name="discuss_message"></textarea>
+                                                    <input type="hidden" name="ticket_id" value="{{i.ticket_id}}">
+                                                    <input type="file" id="file-upload" name="discussion_file" accept="image/*">
+                                                    <button type="submit" name="submit_discussion">Submit</button>
+                                                </form>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                            
+                                        {% endfor %}
+                                        {% endif %}
+                                        
+                                        
+                                    </div>
+                                </div>
+                            
+
+
+                                <div id="supports" class="content-section" style="display: none;">
+                                    <div class="ticket-form">
+                                        <h2>Submit a Support Ticket</h2>
+                                        <form id="ticketForm" method="POST" action="" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <label for="ticketSubject">Subject:</label>
+                                            <input type="text" id="ticketSubject" name="ticketSubject" required>
+                                            
+                                            <label for="ticketDescription">Description:</label>
+                                            <textarea id="ticketDescription" name="ticketDescription" rows="4" required></textarea>
+                                            
+                                            <label for="ticketAttachment">Attachment (optional):</label>
+                                            <input type="file" id="ticketAttachment" accept="image/*" name="ticketAttachment">
+                                            
+                                            <button type="submit" name="ticket_submit">Submit</button>
+                                        </form>
+                                    </div>
+                                
+                                    <!-- Live Chat Section -->
+                                    <div class="live-chat">
+                                        <h2>Live Chat</h2>
+                                        <button id="requestChatBtn">Request Live Support(Future)</button>
+                                        <div class="chat-box hidden" id="chatBox">
+                                            <div class="chat-header">
+                                                <div class="user-info">Support Team</div>
+                                                <div class="actions">
+                                                    <button id="closeChatBtn">×</button>
+                                                </div>
+                                            </div>
+                                            <div class="countdown-timer" id="countdownTimer"></div>
+                                            <div class="chat-messages" id="chatMessages">
+                                                <div class="message admin-message">Admin: Welcome to our support chat. How can I assist you today?</div>
+                                                <div class="message user-message">You: I need help with my recent order.</div>
+                                                <div class="message admin-message">Admin: Sure, let me check that for you.</div>
+                                            </div>
+                                            <form id="chatForm" class="chat-input">
+                                                <textarea id="messageInput" placeholder="Type your message..." rows="3"></textarea>
+                                                <input type="file" id="fileUpload" name="fileUpload">
+                                                <button type="submit">Send</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="overlay" class="overlay"></div>
+                            
+                
+
+            </div>
+                <!-- end of option -->
+            </div>
+        </div>
+    </div>
+
+    <div id="upload-form" class="upload-form">
+        <div class="upload-form-content">
+            <span class="close-btn" onclick="closeUploadForm()">&times;</span>
+            <h2>Upload Profile Picture</h2>
+            <form method = "POST" enctype="multipart/form-data" action = "">
+                {% csrf_token %}
+                <input type="file" id="profile-picture-upload" name="profile_picture">
+                <button type="submit" name="profile_pic_upload" >Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="edit-phone-form" class="upload-form">
+        <div class="upload-form-content">
+            <span class="close-btn" onclick="closeEditForm('phone')">&times;</span>
+            <h2>Edit Phone Information</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="section" value="phone">
+                <label for="phone-number">Phone Number:</label>
+                <input type="text" id="phone-number-input" name="phone-number" value=" {% if user.phone_number %}{{user.phone_number}}{% else %} 9812453654{% endif %}" required>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Contact Information Form for Address -->
+    <div id="edit-address-form" class="upload-form">
+        <div class="upload-form-content">
+            <span class="close-btn" onclick="closeEditForm('address')">&times;</span>
+            <h2>Edit Address Information</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="section" value="address">
+                <label for="address-line1">Address Line :</label>
+                <input type="text" id="address-line1-input" name="address-line1" value="{% if user.address %}{{user.address}}{% else %} Kathmandu, 00 nepal{% endif %}" required>
+                <label for="postal-code">Postal Code:</label>
+                <input type="text" id="postal-code-input" name="postal-code" value="{% if user.postal_code %}{{user.postal_code}}{% else %} 123654{% endif %}" required>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+
+    
+
+
+    <!-- Form Popup -->
+    <div id="form-popup" class="form-popup">
+        <div class="form-container">
+            <span class="close-button" onclick="closeForm()">&times;</span>
+            <h2>Sell Your Images</h2>
+            <form id="sell-image-form" method="POST" action = "" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="imageFile">Image File:</label>
+                    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="category">Select Category</option>
+                        <option value="nature">Nature</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="lifestyle">Lifestyle</option>
+                        <option value="wildlife">Wildlife</option>
+                        <option value="urban">Urban</option>
+                        <option value="portraits">Portraits</option>
+                        <option value="abstract">Abstract</option>
+                        <option value="events">Events</option>
+                        <option value="macro">Macro</option>
+                        <option value="aerial">Aerial</option>
+                        <option value="travel">Travel</option>
+                        <option value="black_and_white">Black and White</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subcategory">Subcategory:</label>
+                    <select id="subcategory" name="subcategory" required>
+                        
+                    </select>
+                </div> 
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price (Rs):</label>
+                    <input type="number" id="price" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="keywords">Keywords (comma-separated):</label>
+                    <input type="text" id="keywords" name="keywords" required>
+                </div>
+                <button type="submit" class="submit-button" name = "upload_images">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="{% static 'js/profile.js'%}"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+{% extends 'admin.html' %}
+
+{% block title %}Withdrawal Requests{% endblock %}
+
+{% block content %}
+<div class="withdrawal-requests">
+    {% comment %} <h1>Withdrawal Requests</h1> {% endcomment %}
+
+    <h2>Pending Requests</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Request Id</th>
+                <th>Request Date</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Comission</th>
+                <th>To Pay</th>
+                <th>Payment Method</th>
+                <th>Account Name</th>
+                <th>Account Number</th>
+                <th>Bank Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in context.pending_requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.request_date }}</td>
+                <td>{{ request.user }}</td>
+                <td>{{ request.amount }}</td>
+                <td>{{ request.comission }}</td>
+                <td>{{ request.to_be_paid }}</td>
+                <td>{{ request.get_payment_method_display }}</td>
+                <td>{{ request.account_name }}</td>
+                <td>{{ request.account_number }}</td>
+                <td>{{ request.bank_name }}</td>
+                <td>
+                    <form method="post" action="{% url 'approve_withdrawal' request.id %}">
+                        {% csrf_token %}
+                        <button class="apre_btn" type="submit">Approve</button>
+                    </form>
+                    <form method="post" action="{% url 'reject_withdrawal' request.id %}">
+                        {% csrf_token %}
+                        <button class="apre_btn" type="submit">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No pending requests.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Approved Requests</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Request Id</th>
+                <th>Request Date</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Comission</th>
+                <th>To Pay</th>
+                <th>Payment Method</th>
+                <th>Account Name</th>
+                <th>Account Number</th>
+                <th>Bank Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in context.approved_requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.request_date }}</td>
+                <td>{{ request.user }}</td>
+                <td>{{ request.amount }}</td>
+                <td>{{ request.comission }}</td>
+                <td>{{ request.to_be_paid }}</td>
+                <td>{{ request.get_payment_method_display }}</td>
+                <td>{{ request.account_name }}</td>
+                <td>{{ request.account_number }}</td>
+                <td>{{ request.bank_name }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No approved requests.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Rejected Requests</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Request Id</th>
+                <th>Request Date</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Comission</th>
+                <th>To Pay</th>
+                <th>Payment Method</th>
+                <th>Account Name</th>
+                <th>Account Number</th>
+                <th>Bank Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in context.rejected_requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.request_date }}</td>
+                <td>{{ request.user }}</td>
+                <td>{{ request.amount }}</td>
+                <td>{{ request.comission }}</td>
+                <td>{{ request.to_be_paid }}</td>
+                <td>{{ request.get_payment_method_display }}</td>
+                <td>{{ request.account_name }}</td>
+                <td>{{ request.account_number }}</td>
+                <td>{{ request.bank_name }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No rejected requests.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

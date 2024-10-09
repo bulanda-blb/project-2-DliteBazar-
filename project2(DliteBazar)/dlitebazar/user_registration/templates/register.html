@@ -1,0 +1,149 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    <title>signup</title>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+            <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+        </div>
+        <nav>
+            <ul>
+                <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                        <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                        <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                        <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                        <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                        <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                        <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                        <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                        <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                        <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                        <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                        <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Video</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Documentary</a></li>
+                        <li><a href="#">Short Films</a></li>
+                        <li><a href="#">Music Videos</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Audios</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Podcasts</a></li>
+                        <li><a href="#">Sound Effects</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">AI Generator</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Text to Image</a></li>
+                        <li><a href="#">Text to Video</a></li>
+                        <li><a href="#">Voice Synthesis</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="#">Art & Design</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Illustrations</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                        <li><a href="#">3D Models</a></li>
+                        <li><a href="#">Logos</a></li>
+                        <li><a href="#">Web Templates</a></li>
+                        <li><a href="#">Frame Design</a></li>
+                        <li><a href="#">God and Goddess</a></li>
+                        <li><a href="#">Characters</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            
+            {% if is_active and user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+            {% elif is_active and not user.profile_picture %}
+            <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+            {% endif %}
+            {% if not is_active %}
+            <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+            {% endif %}
+            <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+
+
+
+
+
+    <div class="signup">
+       <div class="signuptext" >
+        <span class="span-title">Register</span>
+       </div>
+        <form action="" method="POST" id="signup_form" >
+            {% csrf_token %}
+            {% if validation_error.firstname_error_empty %}
+            <p class = "error-message"> {{validation_error.firstname_error_empty}}</p>
+            {% elif validation_error.lastname_error_empty %}
+            <p class = "error-message"> {{validation_error.lastname_error_empty}}</p>
+            {% elif validation_error.email_error_empty %}
+            <p class = "error-message"> {{validation_error.email_error_empty}}</p>
+            {% elif validation_error.password_error_empty %}
+            <p class = "error-message"> {{validation_error.password_error_empty}}</p>
+            {% elif validation_error.firstname_error_valid %}
+            <p class = "error-message"> {{validation_error.firstname_error_valid}}</p>
+            {% elif validation_error.middlename_error_valid %}
+            <p class = "error-message"> {{validation_error.firstname_error_valid}}</p>
+            {% elif validation_error.lastname_error_valid %}
+            <p class = "error-message"> {{validation_error.lastname_error_valid}}</p>
+            {% elif validation_error.email_error_valid %}
+            <p class = "error-message"> {{validation_error.email_error_valid}}</p>
+            {% elif validation_error.password_error_length %}
+            <p class = "error-message"> {{validation_error.password_error_length }}</p>
+            {% elif validation_error.password_error_match %}
+            <p class = "error-message"> {{validation_error.password_error_match}}</p>
+            {% elif validation_error.email_error_exist %}
+            <p class = "error-message"> {{validation_error.email_error_exist}}</p>
+            {% endif %}
+
+
+
+            
+            <input type="text" name="firstname" id="firstname" placeholder="First name*" {% if registration_data.firstname %}value="{{ registration_data.firstname }}"{% endif %}>
+        
+
+            <input type="text" name="middlename" id="middlename" placeholder="Middle name" {% if registration_data.middlename %}value="{{ registration_data.middlename }}"{% endif %} >
+            
+
+            <input type="text" name="lastname" id="lastname"  placeholder="Last name*" {% if registration_data.lastname %}value="{{ registration_data.lastname }}"{% endif %} >
+            
+
+            <input type="email" name="email" id="email" placeholder="email address*" {% if registration_data.email %}value="{{ registration_data.email }}"{% endif %} >
+            
+
+            <input type="password" id="new-password" name="npassword" placeholder="new password*" {% if registration_data.npassword %}value="{{ registration_data.npassword }}"{% endif %} >
+            
+
+            <input type="password" id="confirm-password" name="cpassword" placeholder="confirm password*" {% if registration_data.cpassword %}value="{{ registration_data.cpassword }}"{% endif %} >
+            
+            <button type="submit" name="submit" id="submit-btn" value="submit">Submit</button>
+        </form>
+        
+        <span class="login-part">already have an account?   <a href="{% url 'user_login' %}">Login</a> </span>
+
+    </div>

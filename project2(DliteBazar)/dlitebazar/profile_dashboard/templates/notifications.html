@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Centre</title>
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Notification Centre</h1>
+        <p>Here you can find all your notifications sorted by date. Toggle the switch below to receive important notifications via email.</p>
+        <div class="email-toggle">
+            <form id="toggleForm" method="POST" action="{% url 'toggle_email_notification' %}">
+                {% csrf_token %}
+                <label class="switch">
+                    <input type="checkbox" id="emailNotificationToggle" name="emailNotificationToggle" {% if user.is_email_notification %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
+                <span>Important notifications!! emailed to you</span>
+            </form>
+        </div>
+        <div class="notification-list">
+            {% for date, notifications in grouped_notifications.items %}
+                <div class="notification-day">
+                    <h2>{{ date }}</h2>
+                    <div class="notification-items">
+                        {% for notification in notifications %}
+                            <div class="notification-item {% if not notification.read %}unread{% endif %}">
+                                <div class="notification-header">
+                                    <span class="notification-title">{{ notification.event_type }}</span>
+                                    <span class="notification-time">{{ notification.created_at|time:"H:i:s" }}</span>
+                                </div>
+                                <div class="notification-body">
+                                    <p>{{ notification.message }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/notifications.js' %}"></script>
+</body>
+</html>

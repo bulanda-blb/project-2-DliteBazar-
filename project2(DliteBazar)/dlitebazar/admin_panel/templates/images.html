@@ -1,0 +1,82 @@
+{% extends 'admin.html' %}
+
+{% block title %}Image Management{% endblock %}
+
+{% block content %}
+<div class="image-management">
+    <h1>Image Management</h1>
+    <div class="search-bar">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" name="search_query" placeholder="Search by Image ID, Title, Category, etc.">
+        <button type="submit" name="image_search">Search</button>
+    </form>
+    </div>
+    <div class="image-list">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image ID</th>
+                    <th>User</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Size (kb)</th>
+                    <th>Resolution</th>
+                    <th>File Format</th>
+                    <th>DPI</th>
+                    <th>Uploaded Datetime</th>
+                    <th>Sold Multiple Counter</th>
+                    <th>Liked By Counter</th>
+                    <th>Active</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for image in images %}
+                <tr>
+                    <td>{{ image.image_id }}</td>
+                    <td>{{ image.user }}</td>
+                    <td><img src="{{ image.image_file.url }}" alt="Image" width="100"></td>
+                    <td>{{ image.title }}</td>
+                    <td>{{ image.category }}</td>
+                    <td>{{ image.subcategory }}</td>
+                    <td>{{ image.description }}</td>
+                    <td>{{ image.price }}</td>
+                    <td>{{ image.size }}</td>
+                    <td>{{ image.resolution }}</td>
+                    <td>{{ image.file_format }}</td>
+                    <td>{{ image.dpi }}</td>
+                    <td>{{ image.uploaded_datetime }}</td>
+                    <td>{{ image.sold_multiple_counter }}</td>
+                    <td>{{ image.liked_by_counter }}</td>
+                    <td>{{ image.is_active }}</td>
+                    <td>
+                        {% if image.is_active %}
+                        <form method="post" action="{% url 'deactivate_image' image.image_id %}">
+                            {% csrf_token %}
+                            <button type="submit">Deactivate</button>
+                        </form>
+                        {% endif %}
+                        {% if not image.is_active %}
+                        <form method="post" action="{% url 'activate_image' image.image_id %}">
+                            {% csrf_token %}
+                            <button type="submit" >Activate</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="16">No images found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

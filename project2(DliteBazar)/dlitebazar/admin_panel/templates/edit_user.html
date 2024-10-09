@@ -1,0 +1,48 @@
+{% extends 'admin.html' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="edit-user-form">
+    <a href="{% url 'user_management'%}"><span class="close_edit" onclick="closeEditUserModal()">&times;</span></a>
+    <h1>Edit User</h1>
+    <form method="post" action="{% url 'edit_user' user.user_id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="middle_name">Middle Name:</label>
+            <input type="text" id="middle_name" name="middle_name" value="{{ user.middle_name }}">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}">
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea id="address" name="address">{{ user.address }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="postal_code">Postal Code:</label>
+            <input type="text" id="postal_code" name="postal_code" value="{{ user.postal_code }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="is_active">Active:</label>
+            <input type="checkbox" id="is_active" name="is_active" {% if user.is_active %}checked{% endif %}>
+        </div>
+        <div class="form-group">
+            <label for="is_email_notification">Email Notification:</label>
+            <input type="checkbox" id="is_email_notification" name="is_email_notification" {% if user.is_email_notification %}checked{% endif %}>
+        </div>
+        <button type="submit">Save</button>
+        {% comment %} <a href="{% url 'deactivate_user' user.user_id %}" class="delete-button">Deactivate</a> {% endcomment %}
+    </form>
+</div>
+{% endblock %}

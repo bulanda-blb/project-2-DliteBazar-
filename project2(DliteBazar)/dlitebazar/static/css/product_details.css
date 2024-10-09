@@ -1,0 +1,271 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* margin-top: 200px; */
+
+}
+
+
+.product{
+    width:100%;
+    height: 580px;
+    display: grid;
+    grid-template-columns:4fr 2fr;
+    /* padding: 40px; */
+    column-gap: 10px;
+    margin-top: 100px;
+    
+}
+
+.product_img{
+    /* width: 600px;
+    height: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product_img img{
+    
+    max-width: 800px;
+    max-height: 530px;  
+    /* object-fit: cover; */
+    border-radius: 5px; 
+}
+.product_price{
+    width: 100%;
+    height: 300px;
+    display: grid;
+    grid-template-rows: 3fr 2fr;
+    border-radius: 5px;
+}
+.product_pricedetails{
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    text-align: center;
+    letter-spacing: 2px;
+    border: 1px solid rgb(203, 206, 201);;
+    border-radius: 10px 10px 0px 0px;
+
+}
+
+.prise h3{
+    display: inline;
+}
+.product_download{
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(203, 206, 201);
+    border-radius: 0px 0px 10px 10px;
+
+}
+
+.payment{
+    width: 100%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 10px;
+    gap: 10px;
+    padding: 0px 10px 0px 10px;
+}
+
+.khalti{
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgb(203, 206, 201);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.khalti_logo{
+    width: 100%;
+    height: 100%;
+
+}
+.khalti_text{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    display: contents;
+    font-weight: bold;
+}
+
+.khalti img{
+    width: 70px;
+    height: 45px;
+    display: flex;
+}
+
+.khalti_label{
+    font-size: 20px;
+    font-weight:bold;
+    display: flex;
+}
+
+.esewa{
+    width: 100%;
+    height: 50px;
+}
+.esewa{
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgb(203, 206, 201);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.esewa_logo{
+    width: 100%;
+    height: 100%;
+
+}
+.esewa_text{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    display: contents;
+    font-weight: bold;
+}
+
+.esewa img{
+    width: 45px;
+    height: 45px;
+    display: flex;
+    padding: 5px;
+}
+
+.esewa_label{
+    font-size: 20px;
+    font-weight:bold;
+    display: flex;
+}
+
+.buy{
+    position: relative;
+    top: 50px;
+    left: 30%;
+    width: 40%;
+    height: 30%;
+    text-decoration: none;
+    background-color: rgb(79, 190, 101);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.buy:hover{
+    background-color: rgb(56, 139, 73);
+    scale: 0.9;
+}
+.buy h3{
+    color: white;
+}
+.img_details{
+    width: 100%;
+    /* display: flex; */
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;
+    padding: 0px 10px 0px 80px;
+    /* margin-top: 100px; */
+}
+.img_id{
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(203, 206, 201);
+    border-radius: 10px;
+    padding: 5px;
+}
+.id h4{
+    display: inline;
+}
+.img_format{
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(203, 206, 201);
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+
+.img_owner{
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(203, 206, 201);
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.img_owner img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    
+}
+.img_owner button{
+    width: 80px;
+    height: 30px;
+    background-color: rgb(57, 57, 128);
+    border-radius: 5px;
+    color: white;
+}
+
+
+.display_container1 {
+    padding: 10px;
+    columns: 4;
+    column-gap: 5px;
+    background-color: rgba(77, 226, 89, 0.493);
+}
+
+.recommended{
+    margin-top: 10px;
+    text-align: center;
+    color: rgb(44, 43, 109);
+}
+
+.display_item1 {
+    position: relative;
+    margin-bottom: 5px;
+    break-inside: avoid;
+}
+
+.display_item1 img {
+    width: 100%;
+    border-radius: 5px;
+    border: solid rgb(104, 104, 170) 0.2px;
+    display: block;
+}
+
+.display_item1 .buttons1 {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.display_item1:hover .buttons1 {
+    opacity: 1;
+}
+
+.display_item1 .cart-button1,
+.display_item1 .like-button1 {
+    font-size: 30px; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white; /* Initial button color */
+    transition: color 0.3s ease;
+}
+

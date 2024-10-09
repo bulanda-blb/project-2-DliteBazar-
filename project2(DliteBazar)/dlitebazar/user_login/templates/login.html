@@ -1,0 +1,134 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+  <title>DliteBazar Login</title>
+</head>
+<body>
+  <header>
+    <div class="logo-section">
+        <a href="{% url 'home_page' %}" class="dlitebazar-logo"><img src="{% static 'images/icon.jpg' %}" alt="dlitebazar-logo"></a>
+        <a href="{% url 'home_page' %}"><div class="logo">DliteBazar</div></a>
+    </div>
+    <nav>
+        <ul>
+            <li class="has-dropdown"><a href="{% url 'display_products' %}">Images</a>
+                <ul class="dropdown">
+                    <li><a href="{% url 'searched_products' 'Nature' %}">Nature</a></li>
+                    <li><a href="{% url 'searched_products' 'Wildlife' %}">Wildlife</a></li>
+                    <li><a href="{% url 'searched_products' 'Festival' %}">Festival</a></li>
+                    <li><a href="{% url 'searched_products' 'Commercial' %}">Commercial</a></li>
+                    <li><a href="{% url 'searched_products' 'Life Style' %}">Life Style</a></li>
+                    <li><a href="{% url 'searched_products' 'Portraits' %}">Portraits</a></li>
+                    <li><a href="{% url 'searched_products' 'Events' %}">Events</a></li>
+                    <li><a href="{% url 'searched_products' 'Macro' %}">Macro</a></li>
+                    <li><a href="{% url 'searched_products' 'Abstract' %}">Abstract</a></li>
+                    <li><a href="{% url 'searched_products' 'Aerial' %}">Aerial</a></li>
+                    <li><a href="{% url 'searched_products' 'Travel' %}">Travel</a></li>
+                    <li><a href="{% url 'searched_products' 'Black and White' %}">Black and White</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown"><a href="#">Video</a>
+                <ul class="dropdown">
+                    <li><a href="#">Documentary</a></li>
+                    <li><a href="#">Short Films</a></li>
+                    <li><a href="#">Music Videos</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown"><a href="#">Audios</a>
+                <ul class="dropdown">
+                    <li><a href="#">Music</a></li>
+                    <li><a href="#">Podcasts</a></li>
+                    <li><a href="#">Sound Effects</a></li>
+                    <li><a href="#">Audiobooks</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown"><a href="#">AI Generator</a>
+                <ul class="dropdown">
+                    <li><a href="#">Text to Image</a></li>
+                    <li><a href="#">Text to Video</a></li>
+                    <li><a href="#">Voice Synthesis</a></li>
+                </ul>
+            </li>
+            <li class="has-dropdown"><a href="#">Art & Design</a>
+                <ul class="dropdown">
+                    <li><a href="#">Illustrations</a></li>
+                    <li><a href="#">Graphic Design</a></li>
+                    <li><a href="#">3D Models</a></li>
+                    <li><a href="#">Logos</a></li>
+                    <li><a href="#">Web Templates</a></li>
+                    <li><a href="#">Frame Design</a></li>
+                    <li><a href="#">God and Goddess</a></li>
+                    <li><a href="#">Characters</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div class="user-actions">
+        
+        {% if is_active and user.profile_picture %}
+        <a href="{% url 'profile_page' %}" class="login-profile"><img src="{{ user.profile_picture.url }}" alt="profile image"></a>
+        {% elif is_active and not user.profile_picture %}
+        <a href="{% url 'profile_page' %}" class="login-profile"><img src="{% static 'images/profile.png' %}" alt="profile image"></a>
+        {% endif %}
+        {% if not is_active %}
+        <a href="{% url 'user_login' %}" class="login-btn">Log in</a>
+        {% endif %}
+        <a href="{% url 'register_user' %}" class="signup-btn">Sign up</a>
+    </div>
+</header> 
+
+
+
+    <!-- login container  -->
+  <div class="login">
+    <h3>login DliteBazar</h3>
+    <form action="" method="POST" >
+      {% csrf_token %}
+
+      {% if session_expired_error %}
+      <p class = "error-message">{{session_expired_error}}</p>
+      {% elif empty_error.empty_email_error %}
+      <p class = "error-message">{{empty_error.empty_email_error}}</p>
+      {% elif empty_error.empty_password_error %}
+      <p class = "error-message">{{empty_error.empty_password_error}}</p>
+      {% elif valid_error.valid_email_error %}
+      <p class = "error-message">{{valid_error.valid_email_error}}</p>
+      {% elif valid_error.email_password_invalid %}
+      <p class = "error-message">{{valid_error.email_password_invalid}}</p>
+      {% elif valid_error.deactivated %}
+      <p class = "error-message">{{valid_error.deactivated}}</p>
+      {% endif %}
+
+      <input type="email" name="email" id="email" placeholder="Enter your email" >
+      <input type="password" name="password" placeholder="Password" id="npassword" >
+      
+
+      <button type="submit" name="submit" >Login</button>
+    </form>
+
+      <!-- or    -->
+        <div class="textor">Don't have an account? <a href="{% url 'register_user' %}">Register</a></div>
+
+        <!-- for forget password  -->
+        <div class="forgotpsw">
+            <a href="{% url 'forgot_password' %}">forgot password?</a>
+        </div>
+        
+    
+  </div>
+
+        
+</body>
+</html>
+
+
+

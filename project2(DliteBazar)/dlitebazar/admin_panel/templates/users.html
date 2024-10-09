@@ -1,0 +1,73 @@
+{% extends 'admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="user-management">
+    <h1>User Management</h1>
+    <div class="search-bar">
+        <form method="post" action="">
+            {% csrf_token %}
+            <input type="text" name="search_query" id="search" placeholder="Search by username, name, email, or user ID">
+            <button type="submit" name="search">Search</button>
+        </form>
+    </div>
+    <div class="user-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Profile Picture</th>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Full Name</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Postal Code</th>
+                    <th>Verified</th>
+                    <th>Active</th>
+                    <th>Date Joined</th>
+                    <th>Email Notification</th>
+                    <th>Actions</th>
+                    <th>Reward Points</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                {% for user in context.users %}
+                <tr>
+                    <td>
+                        {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                        {% else %}
+                        <img src="{% static 'images/profile.png' %}" alt="Default Profile Picture" class="profile-picture">
+                        {% endif %}
+                    </td>
+                    <td>{{ user.user_id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.first_name }} {% if user.middle_name %} {{ user.middle_name }} {% endif %} {{ user.last_name }}</td>
+                    <td>{{ user.phone_number }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.postal_code }}</td>
+                    <td>{{ user.is_verified }}</td>
+                    <td>{{ user.is_active }}</td>
+                    <td>{{ user.date_joined }}</td>
+                    <td>{{ user.is_email_notification }}</td>
+                    <td class="actions">
+                        <a href="{% url 'edit_user' user.user_id %}"><button>Edit</button></a>
+                        {% if user.is_active %}
+                        <a href="{% url 'deactivate_user' user.user_id %}"><button>Deactivate</button></a>
+                        {% elif not user.is_active%}
+                        <a href="{% url 'activate_user' user.user_id %}"><button>Activate</button></a>
+                        {% endif %}
+
+                    </td>
+                    <td>{{ user.reward_points }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+   
+</div>
+{% endblock %}
