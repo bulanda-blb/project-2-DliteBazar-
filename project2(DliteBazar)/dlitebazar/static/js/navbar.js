@@ -24,7 +24,7 @@ function openModal(modalId) {
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
-
+// cart summary
 function updateCartSummary() {
     const selectedItems = document.querySelectorAll('.select-item:checked');
     let totalAmount = 0;
